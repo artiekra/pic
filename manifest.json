@@ -1,0 +1,8 @@
+{
+  "name": "#2fcdffffpic #fffffffftests",
+  "descriptions": [
+    "Test level for the #2fcdffffpic #fffffffflib"
+  ],
+  "entry_point": "level.lua",
+  "has_score_leaderboard": false
+}
