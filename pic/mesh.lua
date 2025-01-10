@@ -52,23 +52,6 @@ function Mesh:new()
 end
 
 
---- Add a line to the mesh
--- Add a line that goes through two given points
--- @param point1 first point
--- @param point2 second point
--- @param outline line settings
--- @return Line object
-function Mesh:new_line(point1, point2, outline)
-
-  local object = Line:new(point1, point2, outline)
-
-  table.insert(self.elements, object)
-
-  return object
-
-end
-
-
 --- Compile Mesh object into VSC table.
 -- Uses the Mesh object to get vertexes, segments
 -- and colors data.
@@ -111,6 +94,26 @@ function Mesh:compile()
 
   return result
 end
+
+
+-- Add all the neccesary methods for a certain element
+-- to the Mesh class
+local function add_element_methods(name, class)
+
+  Mesh["get_" .. name] = function(self, ...)
+    return class:new(...)
+  end
+
+  Mesh["new_" .. name] = function(self, ...)
+    local object = class:new(...)
+    table.insert(self.elements, object)
+    return object
+  end
+  
+end
+
+
+add_element_methods("line", Line)
 
 
 return Mesh
