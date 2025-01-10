@@ -19,25 +19,13 @@ end
 
 
 pic.Mesh = relative_import("mesh.lua")
+local point = relative_import("types/point.lua")
 
 
---- Define `meshes` table.
--- Defines and returns `meshes` table, containing specified
--- amount of pic.Mesh objects.
--- @param n amount of meshes to define
--- @return `meshes` table
--- @see pic.Mesh
--- TODO: remove this?
-function pic.define_meshes(n)
+function pic.Point(...)
 
-  local meshes = {}
+  return point:new(...)
 
-  for i=1, n do
-    local new_mesh = pic.Mesh:new()
-    table.insert(meshes, new_mesh)
-  end
-
-  return meshes
 end
 
 
