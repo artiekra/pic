@@ -20,12 +20,16 @@ end
 
 pic.Mesh = relative_import("mesh.lua")
 local point = relative_import("types/point.lua")
+local pointpolar = relative_import("types/point_polar.lua")
 
 
 function pic.Point(...)
-
   return point:new(...)
+end
 
+
+function pic.PointPolar(...)
+  return pointpolar:new(...)
 end
 
 

@@ -8,7 +8,7 @@ Point.__index = Point
 -- @param x x coordinate
 -- @param y y coordinate
 -- @param z z coordinate
--- @return Point Point object
+-- @return Point object
 function Point:new(x, y, z)
 
   local object = setmetatable({}, self)

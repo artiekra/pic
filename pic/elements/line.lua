@@ -25,7 +25,7 @@ local vertex_helpers = relative_import("helpers/vertex.lua")
 -- @param point1 first point
 -- @param point2 second point
 -- @param outline line settings
--- @return Line Point object
+-- @return Line object
 function Line:new(point1, point2, outline)
 
   local object = setmetatable({}, self)
