@@ -19,6 +19,7 @@ end
 
 local vertex_helpers = relative_import("helpers/vertex.lua")
 local color_helpers = relative_import("helpers/color.lua")
+local mesh_helpers = relative_import("helpers/mesh.lua")
 
 
 --- Create a Line object.
@@ -48,9 +49,6 @@ function Line:compile()
 
   local colors = color_helpers.get_color(self.colors)
 
-  local computed_vertexes = {point1, point2}
-  local computed_segments = {{0, 1}}
-
   local computed_colors
   if #colors == 0 then
     computed_colors = {0xffffff00, 0xffffff00}
@@ -63,7 +61,8 @@ function Line:compile()
     error("Line must have 2 or less colors specified")
   end
 
-  return {computed_vertexes, computed_segments, computed_colors}
+  return mesh_helpers.add_line({{}, {}, {}}, point1, point2,
+    table.unpack(computed_colors))
 end
 
 
