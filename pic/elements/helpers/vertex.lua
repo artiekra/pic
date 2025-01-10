@@ -7,7 +7,7 @@ local vertex = {}
 -- @return vertex
 function vertex.get_vertex(point)
 
-  -- if a support classes, use compile function
+  -- if a supported class, use compile function
   if point.compile then
     return point:compile()
   end
