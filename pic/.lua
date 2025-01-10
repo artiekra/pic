@@ -21,6 +21,10 @@ end
 pic.Mesh = relative_import("mesh.lua")
 local PointClass = relative_import("types/point.lua")
 local PointPolarClass = relative_import("types/point_polar.lua")
+local ColorClass = relative_import("types/color.lua")
+local ColorRgbClass = relative_import("types/color_rgb.lua")
+local ColorRgbaClass = relative_import("types/color_rgba.lua")
+local ColorHsvClass = relative_import("types/color_hsv.lua")
 
 
 -- Add all the neccesary methods for a certain type
@@ -37,6 +41,11 @@ end
 
 add_type_methods("Point", PointClass)
 add_type_methods("PointPolar", PointPolarClass)
+
+add_type_methods("Color", ColorClass)
+add_type_methods("ColorRGB", ColorRgbClass)
+add_type_methods("ColorRGBA", ColorRgbaClass)
+add_type_methods("ColorHSV", ColorHsvClass)
 
 
 return pic 

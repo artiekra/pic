@@ -19,6 +19,11 @@ mesh1:new_line({30, 0}, {80, 50}, {0x0000ffff, 0xff0000ff, 0xffff00ff})
 mesh1:new_line({-100, -20}, {100, 0}, {0x0000ffff, 0xff0000ff,
   0xffff00ff, 0x00ff00ff, 0xffffffff, 0xff00ffff})
 
+-- Test different Color types
+mesh1:new_line({40, 0}, {90, 50}, {pic.Color(0xff0000ff),
+  pic.ColorRGB(0, 0, 255), pic.ColorRGBA(255, 255, 0, 50),
+  pic.ColorHSV(180, 1, 0.5)})
+
 
 print(inspect(mesh1))
 local mesh1_compiled = mesh1:compile()

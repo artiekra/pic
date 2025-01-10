@@ -19,9 +19,13 @@ function color.get_color(o, is_table_allowed)
     return {o}
   end
 
-  -- if a supported class, use compile function
+  -- if a supported class, use compile function (wrap in a table if neccesary)
   if o.compile then
-    return o:compile()
+    local result = o:compile()
+    if type(result) == "number" then
+      return {result}
+    end
+    return result
   end
 
   assert(type(o) == "table", "number, table, or color object expected")
