@@ -334,7 +334,7 @@ end
 function inspect.inspect(root, options)
    options = options or {}
 
-   local depth = options.depth or (4)
+   local depth = options.depth or (8)
    local newline = options.newline or '\n'
    local indent = options.indent or '  '
    local process = options.process

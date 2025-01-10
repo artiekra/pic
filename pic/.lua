@@ -27,6 +27,7 @@ pic.Mesh = relative_import("mesh.lua")
 -- @param n amount of meshes to define
 -- @return `meshes` table
 -- @see pic.Mesh
+-- TODO: remove this?
 function pic.define_meshes(n)
 
   local meshes = {}
