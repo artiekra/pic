@@ -19,18 +19,24 @@ end
 
 
 pic.Mesh = relative_import("mesh.lua")
-local point = relative_import("types/point.lua")
-local pointpolar = relative_import("types/point_polar.lua")
+local PointClass = relative_import("types/point.lua")
+local PointPolarClass = relative_import("types/point_polar.lua")
 
 
-function pic.Point(...)
-  return point:new(...)
+-- Add all the neccesary methods for a certain type
+-- to the library
+local function add_type_methods(name, class)
+
+  pic[name] = function(...)
+    return class:new(...)
+  end
+
+ 
 end
 
 
-function pic.PointPolar(...)
-  return pointpolar:new(...)
-end
+add_type_methods("Point", PointClass)
+add_type_methods("PointPolar", PointPolarClass)
 
 
 return pic 
