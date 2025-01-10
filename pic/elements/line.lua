@@ -3,6 +3,23 @@ Line = {point1 = {}, point2 = {}, outline = 0}
 Line.__index = Line
 
 
+-- Get current path for relative imports
+local current_file = ...
+
+
+-- Deduct the path of the library for relative imports
+local function relative_import(file)
+
+  local library_folder = current_file:match("(.+)/[^/]*$") .. "/"
+  local lib = require(library_folder .. file)
+
+  return lib
+end
+
+
+local vertex_helpers = relative_import("helpers/vertex.lua")
+
+
 --- Create a Line object.
 -- A simple line that goes through two given points
 -- @param point1 first point
@@ -25,16 +42,8 @@ end
 -- @return the VSC table for the line
 function Line:compile()
 
-  local point1 = self.point1
-  local point2 = self.point2
-
-  if point1.compile then
-    point1 = point1:compile()
-  end
-
-  if point2.compile then
-    point2 = point2:compile()
-  end
+  local point1 = vertex_helpers.get_vertex(self.point1)
+  local point2 = vertex_helpers.get_vertex(self.point2)
 
   local computed_vertexes = {point1, point2}
   local computed_segments = {{0, 1}}
