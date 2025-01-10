@@ -20,6 +20,7 @@ end
 local vertex_helpers = relative_import("helpers/vertex.lua")
 local color_helpers = relative_import("helpers/color.lua")
 local mesh_helpers = relative_import("helpers/mesh.lua")
+local lerp_helpers = relative_import("helpers/lerp.lua")
 
 
 --- Create a Line object.
@@ -55,14 +56,25 @@ function Line:compile()
   elseif #colors == 1 then
     local color = colors[1]
     computed_colors = {color, color}
-  elseif #colors == 2 then
-    computed_colors = colors
   else
-    error("Line must have 2 or less colors specified")
+    computed_colors = colors
   end
 
-  return mesh_helpers.add_line({{}, {}, {}}, point1, point2,
-    table.unpack(computed_colors))
+  local computed_vertexes = {}
+  table.insert(computed_vertexes, point1)
+
+  local intermediate_points = #computed_colors - 2
+  for i=1, intermediate_points do
+    local a = i / (intermediate_points + 1)
+    local x = lerp_helpers.lerp(point1[1], point2[1], a)
+    local y = lerp_helpers.lerp(point1[2], point2[2], a)
+    local z = lerp_helpers.lerp(point1[3], point2[3], a)
+    table.insert(computed_vertexes, {x, y, z})
+  end
+
+  table.insert(computed_vertexes, point2)
+
+  return mesh_helpers.add_polygon(nil, computed_vertexes, computed_colors)
 end
 
 

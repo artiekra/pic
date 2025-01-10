@@ -7,7 +7,7 @@ local lerp = {}
 -- @param finish finish value
 -- @param t cooficient
 -- @return the result of the lerp function
-function lerp(start, finish, t)
+function lerp.lerp(start, finish, t)
 
     -- ensure t is clamped between 0 and 1
     t = math.max(0, math.min(1, t))

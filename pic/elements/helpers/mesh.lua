@@ -5,6 +5,9 @@ local mesh = {}
 -- @return new mesh
 function mesh.add_polygon(mesh, points, colors, is_closed)
 
+  local mesh = mesh or {{}, {}, {}}
+  local is_closed = is_closed or false
+
   local mesh_v, mesh_s, mesh_c = table.unpack(mesh)
   local segment_offset = #mesh_v
 
