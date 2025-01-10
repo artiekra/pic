@@ -1,20 +1,29 @@
 local mesh = {}
 
 
---- Add a line to a mesh (represented as VSC)
+--- Add a polygon to a mesh (represented as VSC)
 -- @return new mesh
-function mesh.add_line(mesh, point1, point2, color1, color2)
+function mesh.add_polygon(mesh, points, colors, is_closed)
 
   local mesh_v, mesh_s, mesh_c = table.unpack(mesh)
   local segment_offset = #mesh_v
 
-  table.insert(mesh_v, point1)
-  table.insert(mesh_v, point2)
+  for _, point in ipairs(points) do
+    table.insert(mesh_v, point)
+  end
 
-  table.insert(mesh_s, {segment_offset, segment_offset+1})
+  local segments = {}
+  for i=0, #points-1 do
+    table.insert(segments, segment_offset+i)
+  end
+  if is_closed then
+    table.insert(segments, segment_offset)
+  end
+  table.insert(mesh_s, segments)
 
-  table.insert(mesh_c, color1)
-  table.insert(mesh_c, color2)
+  for _, color in ipairs(colors) do
+    table.insert(mesh_c, color)
+  end
 
   return {mesh_v, mesh_s, mesh_c}
 
