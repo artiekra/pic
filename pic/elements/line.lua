@@ -42,11 +42,14 @@ local function parse_line_options(options)
     "nil or table expected to represent Line options")
 
   local no_gradient = options.no_gradient or false
+  local width = options.width or 1
 
   assert(type(no_gradient) == "boolean",
     "boolean expected to represent Line's no_gradient option")
+  assert(type(width) == "number",
+    "number expected to represent Line's width option")
 
-  return {no_gradient = no_gradient}
+  return {no_gradient = no_gradient, width = width}
 end
 
 
@@ -131,7 +134,8 @@ local function compile_basic(object)
 
   table.insert(computed_vertexes, object.point2)
 
-  return mesh_helpers.add_polygon(nil, computed_vertexes, computed_colors, 2)
+  return mesh_helpers.add_polygon(nil, computed_vertexes,
+    computed_colors, object.options.width)
 end
 
 

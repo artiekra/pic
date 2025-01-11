@@ -47,6 +47,14 @@ local no_gradient = mesh1:new_line({-80, 180}, {-20, 180}, {0x0000ffff,
   0xff0000ff, 0xffff00ff}, {no_gradient=true})
 -- print(inspect(no_gradient:compile()))
 
+-- Test for wider lines (width option)
+mesh1:new_line({-10, 200}, {30, 160}, {0xff0000ff,0x0000ffff, 0xffff00ff},
+  {width=2, no_gradient=true})  -- combining options too
+mesh1:new_line({10, 200}, {50, 160}, {0xff0000ff,0x0000ffff, 0xffff00ff},
+  {width=5, no_gradient=true})
+mesh1:new_line({30, 200}, {70, 160},
+  {0xff0000ff,0x0000ffff, 0xffff00ff}, {width=5})
+
 
 print_memory_usage("after creating basic lines")
 
@@ -76,6 +84,8 @@ end
 
 -- print(inspect(mesh1))
 local mesh1_compiled = mesh1:compile()
+
+print_memory_usage("after mesh compilation")
 
 meshes = {mesh1_compiled}
 
