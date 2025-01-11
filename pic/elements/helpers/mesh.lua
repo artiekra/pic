@@ -1,6 +1,24 @@
 local mesh = {}
 
 
+--- Calculate an angle from two points
+-- Calculates an angle between x-axis of the plane
+-- and a line, expressed using 2 points
+local function calculate_line_angle(x1, y1, x2, y2)
+
+  local dx = x2 - x1
+  local dy = y2 - y1
+  
+  local angle = math.atan2(dy, dx)
+  
+  if angle < 0 then
+    angle = angle + 2 * math.pi
+  end
+  
+  return angle
+end
+
+
 --- Add a polygon to a mesh (represented as VSC)
 -- @return new mesh
 function mesh.add_polygon(mesh, points, colors,
@@ -12,25 +30,24 @@ function mesh.add_polygon(mesh, points, colors,
   local mesh_v, mesh_s, mesh_c = table.unpack(mesh)
   local segment_offset = #mesh_v
 
-  for _, point in ipairs(points) do
+  local segments = {}
+
+  for i, point in ipairs(points) do
+
+    -- correction for segments because they use 0-based indexing
     table.insert(mesh_v, point)
+    table.insert(mesh_c, colors[i])
+    table.insert(segments, segment_offset+i-1)
+
   end
 
-  local segments = {}
-  for i=0, #points-1 do
-    table.insert(segments, segment_offset+i)
-  end
   if is_closed then
     table.insert(segments, segment_offset)
   end
+
   table.insert(mesh_s, segments)
 
-  for _, color in ipairs(colors) do
-    table.insert(mesh_c, color)
-  end
-
   return {mesh_v, mesh_s, mesh_c}
-
 end
 
 
