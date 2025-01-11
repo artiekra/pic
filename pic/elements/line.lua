@@ -79,7 +79,7 @@ end
 -- @param object Line object
 -- @return the VSC table for the line
 -- TODO: make it a class method, but private?
-local function compile_basic(object)
+local function compile_basic(object, constants)
 
   local computed_colors
   if #object.colors == 0 then
@@ -96,6 +96,8 @@ local function compile_basic(object)
 
   if object.options.no_gradient then
 
+    local ld = constants.GRADIENT_PREVENTION_VERTEX_SPACING
+
     local new_computed_colors = {}
     table.insert(new_computed_colors, computed_colors[1])
 
@@ -104,14 +106,14 @@ local function compile_basic(object)
     local intermediate_points = #computed_colors - 1
     for i=1, intermediate_points do
       local a = i / (intermediate_points + 1)
-      local x1 = lerp_helpers.lerp(object.point1[1], object.point2[1], 0.999*a)
-      local y1 = lerp_helpers.lerp(object.point1[2], object.point2[2], 0.999*a)
-      local z1 = lerp_helpers.lerp(object.point1[3], object.point2[3], 0.999*a)
+      local x1 = lerp_helpers.lerp(object.point1[1], object.point2[1], a-ld)
+      local y1 = lerp_helpers.lerp(object.point1[2], object.point2[2], a-ld)
+      local z1 = lerp_helpers.lerp(object.point1[3], object.point2[3], a-ld)
       table.insert(computed_vertexes, {x1, y1, z1})
       table.insert(new_computed_colors, computed_colors[i])
-      local x2 = lerp_helpers.lerp(object.point1[1], object.point2[1], 1.001*a)
-      local y2 = lerp_helpers.lerp(object.point1[2], object.point2[2], 1.001*a)
-      local z2 = lerp_helpers.lerp(object.point1[3], object.point2[3], 1.001*a)
+      local x2 = lerp_helpers.lerp(object.point1[1], object.point2[1], a+ld)
+      local y2 = lerp_helpers.lerp(object.point1[2], object.point2[2], a+ld)
+      local z2 = lerp_helpers.lerp(object.point1[3], object.point2[3], a+ld)
       table.insert(computed_vertexes, {x2, y2, z2})
       table.insert(new_computed_colors, computed_colors[i+1])
     end
@@ -142,13 +144,9 @@ end
 
 --- Compile the Line object.
 -- @return the VSC table for the line
-function Line:compile(no_transforms)
+function Line:compile(constants)
 
-  local mesh = compile_basic(self)
-
-  if no_transforms then
-    return mesh
-  end
+  local mesh = compile_basic(self, constants)
 
   for _, transform in ipairs(self.transforms) do
     local transform_type = transform[1]

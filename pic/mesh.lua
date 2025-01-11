@@ -1,7 +1,7 @@
 -- Meta Mesh class
 -- TODO: implement mesh-wide offset (potentially?)
 -- TODO: implement mesh-wide transforms
-Mesh = {elements = {}}
+Mesh = {elements = {}, constants = {}}
 Mesh.__index = Mesh
 
 -- Get current path for relative imports
@@ -21,6 +21,11 @@ end
 local Line = relative_import("elements/line.lua")
 
 
+--- Merge two tables into one.
+-- Only works for array-like tables
+-- @param a first table
+-- @param b second table
+-- @return result of merging two table
 local function merge_tables(a, b)
 
   local result = {}
@@ -45,7 +50,10 @@ function Mesh:new()
 
   local object = setmetatable({}, self)
 
-  -- self.elements = {}
+  self.elements = {}
+  self.constants = {
+    GRADIENT_PREVENTION_VERTEX_SPACING = 0.01
+  }
 
   return object
 
@@ -67,7 +75,7 @@ function Mesh:compile()
   for _, element in ipairs(self.elements) do
 
     local element_vertexes, element_segments, element_colors =
-      table.unpack(element:compile())
+      table.unpack(element:compile(self.constants))
 
     computed_vertexes = merge_tables(computed_vertexes, element_vertexes)
     computed_colors = merge_tables(computed_colors, element_colors)
