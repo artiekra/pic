@@ -3,7 +3,8 @@ local mesh = {}
 
 --- Add a polygon to a mesh (represented as VSC)
 -- @return new mesh
-function mesh.add_polygon(mesh, points, colors, is_closed)
+function mesh.add_polygon(mesh, points, colors,
+  width, is_closed)
 
   local mesh = mesh or {{}, {}, {}}
   local is_closed = is_closed or false

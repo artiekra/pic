@@ -30,20 +30,42 @@ local transform_rotate = relative_import("transforms/rotate.lua")
 local inspect = require("/dynamic/inspect.lua")
 
 
+--- Parse Line object options
+-- Parse and verify the options for Line object
+-- @param options raw options
+-- @returned parsed option table
+local function parse_line_options(options)
+
+  local options = options or {}
+
+  assert(type(options) == "table",
+    "nil or table expected to represent Line options")
+
+  local no_gradient = options.no_gradient or false
+
+  assert(type(no_gradient) == "boolean",
+    "boolean expected to represent Line's no_gradient option")
+
+  return {no_gradient = no_gradient}
+end
+
+
 --- Create a Line object.
 -- A simple line that goes through two given points
 -- @param point1 first point
 -- @param point2 second point
 -- @param colors line colors - any amount (nil, number, color object, or a
 --  table containing numbers or color objects expected)
+-- @param options no_gradient
 -- @return Line object
-function Line:new(point1, point2, colors)
+function Line:new(point1, point2, colors, options)
 
   local object = setmetatable({}, self)
 
   object.point1 = vertex_helpers.compile(point1)
   object.point2 = vertex_helpers.compile(point2)
   object.colors = color_helpers.compile(colors, true)
+  object.options = parse_line_options(options)
   object.transforms = {}
 
   return object
@@ -69,18 +91,47 @@ local function compile_basic(object)
   local computed_vertexes = {}
   table.insert(computed_vertexes, object.point1)
 
-  local intermediate_points = #computed_colors - 2
-  for i=1, intermediate_points do
-    local a = i / (intermediate_points + 1)
-    local x = lerp_helpers.lerp(object.point1[1], object.point2[1], a)
-    local y = lerp_helpers.lerp(object.point1[2], object.point2[2], a)
-    local z = lerp_helpers.lerp(object.point1[3], object.point2[3], a)
-    table.insert(computed_vertexes, {x, y, z})
+  if object.options.no_gradient then
+
+    local new_computed_colors = {}
+    table.insert(new_computed_colors, computed_colors[1])
+
+    -- (#computed_colors - 2) + 1, because we need the same
+    --   amount of segments as colors
+    local intermediate_points = #computed_colors - 1
+    for i=1, intermediate_points do
+      local a = i / (intermediate_points + 1)
+      local x1 = lerp_helpers.lerp(object.point1[1], object.point2[1], 0.999*a)
+      local y1 = lerp_helpers.lerp(object.point1[2], object.point2[2], 0.999*a)
+      local z1 = lerp_helpers.lerp(object.point1[3], object.point2[3], 0.999*a)
+      table.insert(computed_vertexes, {x1, y1, z1})
+      table.insert(new_computed_colors, computed_colors[i])
+      local x2 = lerp_helpers.lerp(object.point1[1], object.point2[1], 1.001*a)
+      local y2 = lerp_helpers.lerp(object.point1[2], object.point2[2], 1.001*a)
+      local z2 = lerp_helpers.lerp(object.point1[3], object.point2[3], 1.001*a)
+      table.insert(computed_vertexes, {x2, y2, z2})
+      table.insert(new_computed_colors, computed_colors[i+1])
+    end
+
+    table.insert(new_computed_colors, computed_colors[#computed_colors])
+    computed_colors = new_computed_colors
+
+  else
+
+    local intermediate_points = #computed_colors - 2
+    for i=1, intermediate_points do
+      local a = i / (intermediate_points + 1)
+      local x = lerp_helpers.lerp(object.point1[1], object.point2[1], a)
+      local y = lerp_helpers.lerp(object.point1[2], object.point2[2], a)
+      local z = lerp_helpers.lerp(object.point1[3], object.point2[3], a)
+      table.insert(computed_vertexes, {x, y, z})
+    end
+
   end
 
   table.insert(computed_vertexes, object.point2)
 
-  return mesh_helpers.add_polygon(nil, computed_vertexes, computed_colors)
+  return mesh_helpers.add_polygon(nil, computed_vertexes, computed_colors, 2)
 end
 
 

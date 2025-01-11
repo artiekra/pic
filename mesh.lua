@@ -42,6 +42,11 @@ mesh1:new_line({-80, 190}, {-20, 190, -25}, {pic.Color(0xff0000ff),
   pic.ColorRGB(0, 0, 255), pic.ColorRGBA(255, 255, 0, 50),
   pic.ColorHSV(180, 1, 0.5)})
 
+-- Test for the no_gradient option
+local no_gradient = mesh1:new_line({-80, 180}, {-20, 180}, {0x0000ffff,
+  0xff0000ff, 0xffff00ff}, {no_gradient=true})
+-- print(inspect(no_gradient:compile()))
+
 
 print_memory_usage("after creating basic lines")
 
