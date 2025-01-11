@@ -24,6 +24,10 @@ local mesh_helpers = relative_import("helpers/mesh.lua")
 local lerp_helpers = relative_import("helpers/lerp.lua")
 local class_helpers = relative_import("helpers/class.lua")
 
+local transform_move = relative_import("transforms/move.lua")
+
+local inspect = require("/dynamic/inspect.lua")
+
 
 --- Create a Line object.
 -- A simple line that goes through two given points
@@ -38,19 +42,22 @@ function Line:new(point1, point2, colors)
   object.point1 = point1
   object.point2 = point2
   object.colors = colors
+  object.transforms = {}
 
   return object
 end
 
 
---- Compile the Line object.
+--- Compile the Line object (no transforms).
+-- @param object Line object
 -- @return the VSC table for the line
-function Line:compile()
+-- TODO: make it a class method, but private?
+local function compile_basic(object)
 
-  local point1 = vertex_helpers.get_vertex(self.point1)
-  local point2 = vertex_helpers.get_vertex(self.point2)
+  local point1 = vertex_helpers.get_vertex(object.point1)
+  local point2 = vertex_helpers.get_vertex(object.point2)
 
-  local colors = color_helpers.get_color(self.colors)
+  local colors = color_helpers.get_color(object.colors)
 
   local computed_colors
   if #colors == 0 then
@@ -77,6 +84,30 @@ function Line:compile()
   table.insert(computed_vertexes, point2)
 
   return mesh_helpers.add_polygon(nil, computed_vertexes, computed_colors)
+end
+
+
+
+--- Compile the Line object.
+-- @return the VSC table for the line
+function Line:compile(no_transforms)
+
+  local mesh = compile_basic(self)
+
+  if no_transforms then
+    return mesh
+  end
+
+  for _, transform in ipairs(self.transforms) do
+    local transform_type = transform[1]
+    local transform_options = transform[2]
+
+    if transform_type == "move" then
+      mesh = transform_move.apply(mesh, transform_options)
+    end
+  end
+
+  return mesh
 end
 
 

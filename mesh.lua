@@ -49,12 +49,11 @@ print_memory_usage("after creating basic lines")
 -- Test transforms
 mesh1:new_line({-200, 120}, {-160, 80}, 0xff0000ff)  -- for reference
 local orange_line = mesh1:new_line({-200, 120}, {-160, 80}, 0xff5000ff)
-orange_line:move(20, 0, 0)
+orange_line:move(20, 5, -20)
 orange_line:rotate(35/36*math.pi)
 orange_line:scale(5)
 orange_line:shear(1.5, 2)
 -- print(inspect(line:compile()))
-
 
 
 print_memory_usage("after creating a line with transforms")

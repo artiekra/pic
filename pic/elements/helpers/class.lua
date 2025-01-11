@@ -6,7 +6,7 @@ local class_helpers = {}
 local function add_transform_method(class, name)
 
   class[name] = function(self, ...)
-    table.insert(class.transforms, {name, ...})
+    table.insert(self.transforms, {name, {...}})
   end
  
 end
