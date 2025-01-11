@@ -34,15 +34,16 @@ local inspect = require("/dynamic/inspect.lua")
 -- A simple line that goes through two given points
 -- @param point1 first point
 -- @param point2 second point
--- @param colors line colors
+-- @param colors line colors - any amount (nil, number, color object, or a
+--  table containing numbers or color objects expected)
 -- @return Line object
 function Line:new(point1, point2, colors)
 
   local object = setmetatable({}, self)
 
-  object.point1 = point1
-  object.point2 = point2
-  object.colors = colors
+  object.point1 = vertex_helpers.compile(point1)
+  object.point2 = vertex_helpers.compile(point2)
+  object.colors = color_helpers.get_color(colors)
   object.transforms = {}
 
   return object
@@ -55,34 +56,29 @@ end
 -- TODO: make it a class method, but private?
 local function compile_basic(object)
 
-  local point1 = vertex_helpers.get_vertex(object.point1)
-  local point2 = vertex_helpers.get_vertex(object.point2)
-
-  local colors = color_helpers.get_color(object.colors)
-
   local computed_colors
-  if #colors == 0 then
+  if #object.colors == 0 then
     computed_colors = {0xffffff00, 0xffffff00}
-  elseif #colors == 1 then
-    local color = colors[1]
+  elseif #object.colors == 1 then
+    local color = object.colors[1]
     computed_colors = {color, color}
   else
-    computed_colors = colors
+    computed_colors = object.colors
   end
 
   local computed_vertexes = {}
-  table.insert(computed_vertexes, point1)
+  table.insert(computed_vertexes, object.point1)
 
   local intermediate_points = #computed_colors - 2
   for i=1, intermediate_points do
     local a = i / (intermediate_points + 1)
-    local x = lerp_helpers.lerp(point1[1], point2[1], a)
-    local y = lerp_helpers.lerp(point1[2], point2[2], a)
-    local z = lerp_helpers.lerp(point1[3], point2[3], a)
+    local x = lerp_helpers.lerp(object.point1[1], object.point2[1], a)
+    local y = lerp_helpers.lerp(object.point1[2], object.point2[2], a)
+    local z = lerp_helpers.lerp(object.point1[3], object.point2[3], a)
     table.insert(computed_vertexes, {x, y, z})
   end
 
-  table.insert(computed_vertexes, point2)
+  table.insert(computed_vertexes, object.point2)
 
   return mesh_helpers.add_polygon(nil, computed_vertexes, computed_colors)
 end
