@@ -50,6 +50,7 @@ function color_helpers.compile(color, multiple_color_choice)
 
   if not multiple_color_choice then
     assert(#colors <= 1, "no more then 1 color expected")
+    return colors[1]
   end
 
   return colors
