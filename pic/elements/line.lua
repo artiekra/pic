@@ -1,5 +1,6 @@
 -- Meta Line class
-Line = {point1 = {}, point2 = {}, colors = {}}
+Line = {point1 = {}, point2 = {}, colors = {},
+  transforms = {}}
 Line.__index = Line
 
 
@@ -21,6 +22,7 @@ local vertex_helpers = relative_import("helpers/vertex.lua")
 local color_helpers = relative_import("helpers/color.lua")
 local mesh_helpers = relative_import("helpers/mesh.lua")
 local lerp_helpers = relative_import("helpers/lerp.lua")
+local class_helpers = relative_import("helpers/class.lua")
 
 
 --- Create a Line object.
@@ -76,6 +78,9 @@ function Line:compile()
 
   return mesh_helpers.add_polygon(nil, computed_vertexes, computed_colors)
 end
+
+
+class_helpers.add_transform_methods(Line)
 
 
 return Line

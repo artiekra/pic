@@ -1,4 +1,5 @@
 -- TODO: potentially introduce class privacy
+-- TODO: improve commenting (LDoc stuff too)
 local pic = {}
 
 pic._VERSION = "1.0.0"
