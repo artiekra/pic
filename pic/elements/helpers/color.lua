@@ -1,47 +1,59 @@
-local color = {}
+local color_helpers = {}
 
 
---- Get color from an object.
--- Compiles a given object (a table, class, etc) into a mesh color
+--- Compile color.
+-- Compiles a given color (a table, class, etc) into
+-- a mesh color (table or a hex value)
 -- @param color given object
+-- @param multiple_color_choice handle multiple colors (and
+--   return a table), by default false
 -- @return colors as a table
-function color.get_color(o, is_table_allowed)
+function color_helpers.compile(color, multiple_color_choice)
 
-  local is_table_allowed = is_table_allowed or true
+  local multiple_color_choice = multiple_color_choice or false
 
   -- if falsy, return transparent white
-  if not o then
-    return {0xffffff00}
+  if not color then
+    if multiple_color_choice then
+      return {0xffffff00}
+    end
+    return 0xffffff00
   end
 
-  -- if just a number, return it (but as a table with a single element)
-  if type(o) == "number" then
-    return {o}
+  -- if just a number, return it (but as a table with a single element,
+  --   if multiple_color_choice)
+  if type(color) == "number" then
+    if multiple_color_choice then
+      return {color}
+    end
+    return color
   end
+
+  assert(type(color) == "table",
+    "falsy value, number, table, or a supported object "..
+    "expected to represent color")
 
   -- if a supported class, use compile function (wrap in a table if neccesary)
-  if o.compile then
-    local result = o:compile()
-    if type(result) == "number" then
-      return {result}
-    end
-    return result
-  end
-
-  assert(type(o) == "table", "number, table, or color object expected")
-
-  if not is_table_allowed then
-    error("must specify one color; number or color object expected")
+  if type(color.compile) == "function" then
+    local result = color:compile()
+    return color_helpers.compile(result, multiple_color_choice)
   end
 
   local colors = {}
 
-  for _, raw_color in ipairs(o) do
-    table.insert(colors, color.get_color(raw_color)[1])
+  for _, raw_color in ipairs(color) do
+    local new_colors = color_helpers.compile(raw_color, true)
+    for _, new_color in ipairs(new_colors) do
+      table.insert(colors, new_color)
+    end
+  end
+
+  if not multiple_color_choice then
+    assert(#colors <= 1, "no more then 1 color expected")
   end
 
   return colors
 end
 
 
-return color
+return color_helpers

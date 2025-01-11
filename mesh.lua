@@ -20,7 +20,7 @@ print_memory_usage("after creating a mesh")
 
 
 -- Test basic Line creation
-mesh1:new_line({-200, 200}, {-160, 160}, 0xff0000ff)
+mesh1:new_line({-200, 200}, {-160, 160}, {0xff0000ff})
 
 -- Test different number of colors being used
 mesh1:new_line({-160, 200}, {-120, 160}, {0xff0000ff, 0x0000ffff})

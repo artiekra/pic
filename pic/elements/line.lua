@@ -43,7 +43,7 @@ function Line:new(point1, point2, colors)
 
   object.point1 = vertex_helpers.compile(point1)
   object.point2 = vertex_helpers.compile(point2)
-  object.colors = color_helpers.get_color(colors)
+  object.colors = color_helpers.compile(colors, true)
   object.transforms = {}
 
   return object
