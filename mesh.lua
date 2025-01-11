@@ -50,7 +50,8 @@ print_memory_usage("after creating basic lines")
 mesh1:new_line({-200, 120}, {-160, 80}, 0xff0000ff)  -- for reference
 local orange_line = mesh1:new_line({-200, 120}, {-160, 80}, 0xff5000ff)
 orange_line:move(20, 5, -20)
-orange_line:rotate(35/36*math.pi)
+orange_line:rotate({32/36*math.pi, 32/36*math.pi,
+  32/36*math.pi}, {-160, 105, -20})
 orange_line:scale(5)
 orange_line:shear(1.5, 2)
 -- print(inspect(line:compile()))

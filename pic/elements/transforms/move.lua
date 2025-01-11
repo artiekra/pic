@@ -1,7 +1,7 @@
 local transform_move = {}
 
 
---- Apply the move transform to the vertex
+--- Apply the move transform to the vertex.
 -- Moves the vertex by a certain offset
 local function apply_to_vertex(vertex, options)
 
@@ -13,11 +13,11 @@ local function apply_to_vertex(vertex, options)
 end
 
 
---- Apply the move transform to the mesh
+--- Apply the move transform to the mesh.
 -- Moves all the vertexes by a certain offset
 function transform_move.apply(mesh, options)
 
-  vertexes = mesh[1]
+  local vertexes = mesh[1]
 
   local new_vertexes = {}
   for _, vertex in ipairs(vertexes) do

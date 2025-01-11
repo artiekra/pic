@@ -25,6 +25,7 @@ local lerp_helpers = relative_import("helpers/lerp.lua")
 local class_helpers = relative_import("helpers/class.lua")
 
 local transform_move = relative_import("transforms/move.lua")
+local transform_rotate = relative_import("transforms/rotate.lua")
 
 local inspect = require("/dynamic/inspect.lua")
 
@@ -104,6 +105,8 @@ function Line:compile(no_transforms)
 
     if transform_type == "move" then
       mesh = transform_move.apply(mesh, transform_options)
+    elseif transform_type == "rotate" then
+      mesh = transform_rotate.apply(mesh, transform_options)
     end
   end
 
