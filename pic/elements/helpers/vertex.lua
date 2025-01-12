@@ -4,8 +4,22 @@ local vertex_helpers = {}
 --- Compile vertex.
 -- Compiles vertex (a table, class, etc) into a mesh vertex (table)
 -- @param vertex given vertex to compile
+-- @param multiple_vertex_support handle multiple vertexes (an
+--   return a table), by default false (required table of vertexes)
 -- @return resulting vertex as a table
-function vertex_helpers.compile(vertex)
+function vertex_helpers.compile(vertex, multiple_vertex_choice)
+
+  local multiple_vertex_choice = multiple_vertex_choice or false
+
+  if multiple_vertex_choice then
+    assert(type(vertex) == "table",
+      "table or a supported object expected to represent vertexes")
+    local result = {}
+    for _, individual_vertex in ipairs(vertex) do
+      table.insert(result, vertex_helpers.compile(individual_vertex))
+    end
+    return result
+  end
 
   assert(type(vertex) == "table",
     "table or a supported object expected to represent a vertex")

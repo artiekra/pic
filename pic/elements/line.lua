@@ -27,14 +27,12 @@ local class_helpers = relative_import("helpers/class.lua")
 local transform_move = relative_import("transforms/move.lua")
 local transform_rotate = relative_import("transforms/rotate.lua")
 
-local inspect = require("/dynamic/inspect.lua")
-
 
 --- Parse Line object options
 -- Parse and verify the options for Line object
 -- @param options raw options
 -- @returned parsed option table
-local function parse_line_options(options)
+local function parse_options(options)
 
   local options = options or {}
 
@@ -59,7 +57,7 @@ end
 -- @param point2 second point
 -- @param colors line colors - any amount (nil, number, color object, or a
 --  table containing numbers or color objects expected)
--- @param options no_gradient
+-- @param options no_gradient, width
 -- @return Line object
 function Line:new(point1, point2, colors, options)
 
@@ -68,7 +66,7 @@ function Line:new(point1, point2, colors, options)
   object.point1 = vertex_helpers.compile(point1)
   object.point2 = vertex_helpers.compile(point2)
   object.colors = color_helpers.compile(colors, true)
-  object.options = parse_line_options(options)
+  object.options = parse_options(options)
   object.transforms = {}
 
   return object

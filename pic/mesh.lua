@@ -19,6 +19,7 @@ end
 
 
 local Line = relative_import("elements/line.lua")
+local Polygon = relative_import("elements/polygon.lua")
 local constant_defaults = relative_import("defaults.lua")
 
 
@@ -150,6 +151,7 @@ end
 
 
 add_element_methods("line", Line)
+add_element_methods("polygon", Polygon)
 
 
 return Mesh
