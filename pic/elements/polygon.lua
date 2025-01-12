@@ -63,8 +63,9 @@ function Polygon:new(points, colors, options)
   object.options = parse_options(options)
   object.transforms = {}
 
-  assert(#object.points == #object.colors,
-    "the same amount of colors as point expected to represent Polygon object")
+  assert(#object.points == #object.colors or #object.colors == 0 or
+    #object.colors == 1, "0, 1, or the same amount of colors as points"..
+    "expected to represent Polygon object")
 
   return object
 end
@@ -76,8 +77,22 @@ end
 -- TODO: make it a class method, but private?
 local function compile_basic(object, constants)
 
+  local computed_colors = {}
+  if #object.colors == 0 then
+    for n=1, #object.points do
+      table.insert(computed_colors, 0xffffff00)
+    end
+  elseif #object.colors == 1 then
+    local color = object.colors[1]
+    for n=1, #object.points do
+      table.insert(computed_colors, color)
+    end
+  else
+    computed_colors = object.colors
+  end
+
   return mesh_helpers.add_polygon(nil, constants, object.points,
-    object.colors, object.options.width)
+    computed_colors, object.options.width)
 end
 
 
