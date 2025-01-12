@@ -1,7 +1,5 @@
 local mesh = {}
 
-local inspect = require("/dynamic/inspect.lua")
-
 
 --- Calculate an angle from two points
 -- Calculates an angle between x-axis of the plane
