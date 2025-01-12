@@ -19,6 +19,7 @@ end
 
 
 local Line = relative_import("elements/line.lua")
+local constant_defaults = relative_import("defaults.lua")
 
 
 --- Merge two tables into one.
@@ -43,18 +44,44 @@ local function merge_tables(a, b)
 end
 
 
+--- Parse Mesh object constants
+-- Parse and verify the constants passed to Mesh object
+-- @param constants raw constant input
+-- @returned parsed constant table
+local function parse_mesh_constants(constants)
+
+  local constants = constants or {}
+
+  assert(type(constants) == "table",
+    "nil or table expected to represent Mesh constants")
+
+  -- TODO: add support for non-number constants
+  local function process_constant(results_table, name)
+    local value = constants[name] or constant_defaults[name]
+    assert(type(value) == "number", "number expected to represent a constant")
+    results_table[name] = value
+  end
+
+  results = {}
+
+  for k, v in pairs(constant_defaults) do
+    process_constant(results, k)
+  end
+
+  return results
+end
+
+
+
 --- Create new Mesh instance.
 -- @return Mesh object
 -- TODO: add `shapes` param to add shapes upon initialization
-function Mesh:new()
+function Mesh:new(constants)
 
   local object = setmetatable({}, self)
 
   self.elements = {}
-  self.constants = {
-    GRADIENT_PREVENTION_VERTEX_SPACING = 0.01,
-    FAKE_WIDTH_LINE_GAP = 0.65,
-  }
+  self.constants = parse_mesh_constants(constants)
 
   return object
 
