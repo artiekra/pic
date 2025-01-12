@@ -45,10 +45,8 @@ end
 
 --- Add a polygon to a mesh (represented as VSC)
 -- @return new mesh
-function mesh.add_polygon(mesh, points, colors,
-  width, is_closed)
-
-  local WIDTH_GAP = 0.75
+function mesh.add_polygon(mesh, constants, points,
+  colors, width, is_closed)
 
   local mesh = mesh or {{}, {}, {}}
   local is_closed = is_closed or false
@@ -69,7 +67,8 @@ function mesh.add_polygon(mesh, points, colors,
 
       for l=1, lines_on_one_side do
         
-        local gap = WIDTH_GAP
+        local gap = constants.FAKE_WIDTH_LINE_GAP
+
         if l == 1 then gap = gap / 2 end
 
         local extension_angle = calculate_line_angle(points[i-1][1],
@@ -108,7 +107,7 @@ function mesh.add_polygon(mesh, points, colors,
 
       for l=1, lines_on_one_side do
         
-        local gap = WIDTH_GAP
+        local gap = constants.FAKE_WIDTH_LINE_GAP
 
         local extension_angle = calculate_line_angle(points[i-1][1],
           points[i-1][2], point[1], point[2]) + math.pi/2

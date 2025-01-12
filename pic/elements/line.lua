@@ -136,7 +136,7 @@ local function compile_basic(object, constants)
 
   table.insert(computed_vertexes, object.point2)
 
-  return mesh_helpers.add_polygon(nil, computed_vertexes,
+  return mesh_helpers.add_polygon(nil, constants, computed_vertexes,
     computed_colors, object.options.width)
 end
 

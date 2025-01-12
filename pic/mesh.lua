@@ -52,7 +52,8 @@ function Mesh:new()
 
   self.elements = {}
   self.constants = {
-    GRADIENT_PREVENTION_VERTEX_SPACING = 0.01
+    GRADIENT_PREVENTION_VERTEX_SPACING = 0.01,
+    FAKE_WIDTH_LINE_GAP = 0.65,
   }
 
   return object
