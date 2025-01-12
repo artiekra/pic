@@ -127,6 +127,9 @@ function mesh.add_polygon(mesh, points, colors, constants, options)
   local mesh = mesh or {{}, {}, {}}
   local is_closed = options.is_closed or false
   local width = options.width or 1 
+  local joint = options.joint or "none"
+
+  print(joint)
 
   if options.is_closed then
     table.insert(points, points[1])
