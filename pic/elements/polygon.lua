@@ -36,14 +36,22 @@ local function parse_options(options)
   local options = options or {}
 
   assert(type(options) == "table",
-    "nil or table expected to represent Line options")
+    "nil or table expected to represent Polygon options")
 
   local width = options.width or 1
+  local is_closed
+  if options.is_closed == nil then
+    is_closed = true
+  else
+    is_closed = options.is_closed
+  end
 
   assert(type(width) == "number",
-    "number expected to represent Line's width option")
+    "number expected to represent Polygon's width option")
+  assert(type(is_closed) == "boolean",
+    "boolean expected to represent Polygon's is_closed option")
 
-  return {width = width}
+  return {width = width, is_closed = is_closed}
 end
 
 
@@ -91,7 +99,7 @@ function Polygon:compile(constants)
 
   local mesh = mesh_helpers.add_polygon(nil, self.points,
     computed_colors, constants, {width=self.options.width,
-    is_closed=true})
+    is_closed=self.options.is_closed})
 
   for _, transform in ipairs(self.transforms) do
     local transform_type = transform[1]

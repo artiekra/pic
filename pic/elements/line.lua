@@ -39,15 +39,15 @@ local function parse_options(options)
   assert(type(options) == "table",
     "nil or table expected to represent Line options")
 
-  local no_gradient = options.no_gradient or false
   local width = options.width or 1
+  local no_gradient = options.no_gradient or false
 
-  assert(type(no_gradient) == "boolean",
-    "boolean expected to represent Line's no_gradient option")
   assert(type(width) == "number",
     "number expected to represent Line's width option")
+  assert(type(no_gradient) == "boolean",
+    "boolean expected to represent Line's no_gradient option")
 
-  return {no_gradient = no_gradient, width = width}
+  return {width = width, no_gradient = no_gradient}
 end
 
 

@@ -131,8 +131,8 @@ function mesh.add_polygon(mesh, points, colors, constants, options)
   local width = options.width or 1 
 
   if options.is_closed then
-    table.insert(points, points[0])
-    table.insert(colors, colors[0])
+    table.insert(points, points[1])
+    table.insert(colors, colors[1])
   end
 
   for i, point in ipairs(points) do

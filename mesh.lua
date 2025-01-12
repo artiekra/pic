@@ -79,7 +79,7 @@ mesh1:new_polygon({{-200, 40}, {-160, 0}, {-180, 35}},
 mesh1:new_polygon({{-160, 40}, {-120, 0}, {-140, 35}},
   {0x0000ffff, 0xff0000ff, 0xffff00ff})
 mesh1:new_polygon({{-120, 40}, {-80, 0}, {-100, 35}},
-  0x00ff00ff)
+  0x00ff00ff, {is_closed=false})
 mesh1:new_polygon({{-115, 40}, {-75, 0}, {-95, 35}})  -- should not be visible
 
 -- Polygons with different width
