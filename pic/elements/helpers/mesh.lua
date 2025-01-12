@@ -69,22 +69,22 @@ function mesh.add_polygon(mesh, constants, points,
         
         local gap = constants.FAKE_WIDTH_LINE_GAP
 
-        if l == 1 then gap = gap / 2 end
+        -- if l == 1 then gap = gap / 2 end
 
         local extension_angle = calculate_line_angle(points[i-1][1],
           points[i-1][2], point[1], point[2]) + math.pi/2
         local extension_angle2 = extension_angle + math.pi
         local x1, y1 = get_point_at_angle_and_distance(
-          points[i-1][1], points[i-1][2], extension_angle, gap*l
+          points[i-1][1], points[i-1][2], extension_angle, gap*(l-0.5)
         )
         local x2, y2 = get_point_at_angle_and_distance(
-          point[1], point[2], extension_angle, gap*l
+          point[1], point[2], extension_angle, gap*(l-0.5)
         )
         local x3, y3 = get_point_at_angle_and_distance(
-          points[i-1][1], points[i-1][2], extension_angle2, gap*l
+          points[i-1][1], points[i-1][2], extension_angle2, gap*(l-0.5)
         )
         local x4, y4 = get_point_at_angle_and_distance(
-          point[1], point[2], extension_angle2, gap*l
+          point[1], point[2], extension_angle2, gap*(l-0.5)
         )
 
         table.insert(mesh_v, {x1, y1, points[i-1][3]})

@@ -64,7 +64,7 @@ function Polygon:new(points, colors, options)
   object.transforms = {}
 
   assert(#object.points == #object.colors or #object.colors == 0 or
-    #object.colors == 1, "0, 1, or the same amount of colors as points"..
+    #object.colors == 1, "0, 1, or the same amount of colors as points "..
     "expected to represent Polygon object")
 
   return object

@@ -13,7 +13,7 @@ end
 print_memory_usage("after import")
 
 
-local mesh1 = pic.Mesh:new()
+local mesh1 = pic.Mesh:new({FAKE_WIDTH_LINE_GAP = 0.65})
 
 
 print_memory_usage("after creating a mesh")
@@ -73,6 +73,7 @@ orange_line:shear(1.5, 2)
 print_memory_usage("after creating a line with transforms")
 
 
+-- Test basic polygons
 mesh1:new_polygon({{-200, 40}, {-160, 0}, {-180, 35}},
   {0xff0000ff, 0xff0000ff, 0xff0000ff})
 mesh1:new_polygon({{-160, 40}, {-120, 0}, {-140, 35}},
@@ -80,6 +81,10 @@ mesh1:new_polygon({{-160, 40}, {-120, 0}, {-140, 35}},
 mesh1:new_polygon({{-120, 40}, {-80, 0}, {-100, 35}},
   0x00ff00ff)
 mesh1:new_polygon({{-115, 40}, {-75, 0}, {-95, 35}})  -- should not be visible
+
+-- Polygons with different width
+mesh1:new_polygon({{-90, 40}, {-40, 0}, {-60, 35}},
+  {0xff0000ff, 0x00ff00ff, 0xffffffff}, {width=10})
 
 
 print_memory_usage("after creating basic polygons")
