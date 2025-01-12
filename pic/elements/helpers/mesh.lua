@@ -4,6 +4,7 @@ local mesh = {}
 --- Calculate an angle from two points
 -- Calculates an angle between x-axis of the plane
 -- and a line, expressed using 2 points
+-- TODO: reimplement with atan2 if new ppl-utils support it
 local function calculate_line_angle(x1, y1, x2, y2)
 
 local dx = x2 - x1
@@ -44,12 +45,18 @@ end
 
 
 --- Add a polygon to a mesh (represented as VSC)
+-- @param mesh existing mesh or nil to create a new one
+-- @colors one color for each point
+-- @constants table with constants to use
+-- @options is_closed, width
 -- @return new mesh
-function mesh.add_polygon(mesh, constants, points,
-  colors, width, is_closed)
+function mesh.add_polygon(mesh, points, colors, constants, options)
+
+  local options = options or {}
 
   local mesh = mesh or {{}, {}, {}}
-  local is_closed = is_closed or false
+  local is_closed = options.is_closed or false
+  local width = options.width or 1 
 
   local mesh_v, mesh_s, mesh_c = table.unpack(mesh)
   local segment_offset = #mesh_v

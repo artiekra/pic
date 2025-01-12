@@ -71,37 +71,26 @@ function Polygon:new(points, colors, options)
 end
 
 
---- Compile the Polygon object (no transforms).
--- @param object Polygon object
--- @return the VSC table for the polygonal chain
--- TODO: make it a class method, but private?
-local function compile_basic(object, constants)
-
-  local computed_colors = {}
-  if #object.colors == 0 then
-    for n=1, #object.points do
-      table.insert(computed_colors, 0xffffff00)
-    end
-  elseif #object.colors == 1 then
-    local color = object.colors[1]
-    for n=1, #object.points do
-      table.insert(computed_colors, color)
-    end
-  else
-    computed_colors = object.colors
-  end
-
-  return mesh_helpers.add_polygon(nil, constants, object.points,
-    computed_colors, object.options.width)
-end
-
-
-
 --- Compile the Polygon object.
 -- @return the VSC table for the polygonal chain
 function Polygon:compile(constants)
 
-  local mesh = compile_basic(self, constants)
+  local computed_colors = {}
+  if #self.colors == 0 then
+    for n=1, #self.points do
+      table.insert(computed_colors, 0xffffff00)
+    end
+  elseif #self.colors == 1 then
+    local color = self.colors[1]
+    for n=1, #self.points do
+      table.insert(computed_colors, color)
+    end
+  else
+    computed_colors = self.colors
+  end
+
+  local mesh = mesh_helpers.add_polygon(nil, self.points,
+    computed_colors, constants, {width=self.options.width})
 
   for _, transform in ipairs(self.transforms) do
     local transform_type = transform[1]

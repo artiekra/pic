@@ -73,26 +73,24 @@ function Line:new(point1, point2, colors, options)
 end
 
 
---- Compile the Line object (no transforms).
--- @param object Line object
+--- Compile the Line object.
 -- @return the VSC table for the line
--- TODO: make it a class method, but private?
-local function compile_basic(object, constants)
+function Line:compile(constants)
 
   local computed_colors
-  if #object.colors == 0 then
+  if #self.colors == 0 then
     computed_colors = {0xffffff00, 0xffffff00}
-  elseif #object.colors == 1 then
-    local color = object.colors[1]
+  elseif #self.colors == 1 then
+    local color = self.colors[1]
     computed_colors = {color, color}
   else
-    computed_colors = object.colors
+    computed_colors = self.colors
   end
 
   local computed_vertexes = {}
-  table.insert(computed_vertexes, object.point1)
+  table.insert(computed_vertexes, self.point1)
 
-  if object.options.no_gradient then
+  if self.options.no_gradient then
 
     local ld = constants.GRADIENT_PREVENTION_VERTEX_SPACING
 
@@ -104,14 +102,14 @@ local function compile_basic(object, constants)
     local intermediate_points = #computed_colors - 1
     for i=1, intermediate_points do
       local a = i / (intermediate_points + 1)
-      local x1 = lerp_helpers.lerp(object.point1[1], object.point2[1], a-ld)
-      local y1 = lerp_helpers.lerp(object.point1[2], object.point2[2], a-ld)
-      local z1 = lerp_helpers.lerp(object.point1[3], object.point2[3], a-ld)
+      local x1 = lerp_helpers.lerp(self.point1[1], self.point2[1], a-ld)
+      local y1 = lerp_helpers.lerp(self.point1[2], self.point2[2], a-ld)
+      local z1 = lerp_helpers.lerp(self.point1[3], self.point2[3], a-ld)
       table.insert(computed_vertexes, {x1, y1, z1})
       table.insert(new_computed_colors, computed_colors[i])
-      local x2 = lerp_helpers.lerp(object.point1[1], object.point2[1], a+ld)
-      local y2 = lerp_helpers.lerp(object.point1[2], object.point2[2], a+ld)
-      local z2 = lerp_helpers.lerp(object.point1[3], object.point2[3], a+ld)
+      local x2 = lerp_helpers.lerp(self.point1[1], self.point2[1], a+ld)
+      local y2 = lerp_helpers.lerp(self.point1[2], self.point2[2], a+ld)
+      local z2 = lerp_helpers.lerp(self.point1[3], self.point2[3], a+ld)
       table.insert(computed_vertexes, {x2, y2, z2})
       table.insert(new_computed_colors, computed_colors[i+1])
     end
@@ -124,27 +122,18 @@ local function compile_basic(object, constants)
     local intermediate_points = #computed_colors - 2
     for i=1, intermediate_points do
       local a = i / (intermediate_points + 1)
-      local x = lerp_helpers.lerp(object.point1[1], object.point2[1], a)
-      local y = lerp_helpers.lerp(object.point1[2], object.point2[2], a)
-      local z = lerp_helpers.lerp(object.point1[3], object.point2[3], a)
+      local x = lerp_helpers.lerp(self.point1[1], self.point2[1], a)
+      local y = lerp_helpers.lerp(self.point1[2], self.point2[2], a)
+      local z = lerp_helpers.lerp(self.point1[3], self.point2[3], a)
       table.insert(computed_vertexes, {x, y, z})
     end
 
   end
 
-  table.insert(computed_vertexes, object.point2)
+  table.insert(computed_vertexes, self.point2)
 
-  return mesh_helpers.add_polygon(nil, constants, computed_vertexes,
-    computed_colors, object.options.width)
-end
-
-
-
---- Compile the Line object.
--- @return the VSC table for the line
-function Line:compile(constants)
-
-  local mesh = compile_basic(self, constants)
+  local mesh = mesh_helpers.add_polygon(nil, computed_vertexes,
+    computed_colors, constants, {width=self.options.width})
 
   for _, transform in ipairs(self.transforms) do
     local transform_type = transform[1]
