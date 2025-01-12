@@ -90,7 +90,8 @@ function Polygon:compile(constants)
   end
 
   local mesh = mesh_helpers.add_polygon(nil, self.points,
-    computed_colors, constants, {width=self.options.width})
+    computed_colors, constants, {width=self.options.width,
+    is_closed=true})
 
   for _, transform in ipairs(self.transforms) do
     local transform_type = transform[1]
