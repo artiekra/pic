@@ -83,8 +83,8 @@ mesh1:new_polygon({{-120, 40}, {-80, 0}, {-100, 35}},
 mesh1:new_polygon({{-115, 40}, {-75, 0}, {-95, 35}})  -- should not be visible
 
 -- Polygons with different width and joint style
-mesh1:new_polygon({{-90, 40}, {-40, 0}, {-60, 35}},
-  {0xff0000ff, 0x00ff00ff, 0xffffffff}, {width=10, joint="cap"})
+mesh1:new_polygon({{-75, 40}, {-25, 0}, {-45, 35}},
+  {0xff0000ff, 0x00ff00ff, 0x0000ffff}, {width=10, joint="round"})
 
 
 print_memory_usage("after creating basic polygons")

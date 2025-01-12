@@ -1,4 +1,4 @@
-local mesh = {}
+local mesh_helpers = {}
 
 
 --- Calculate an angle from two points
@@ -120,7 +120,7 @@ end
 -- @options is_closed, width
 -- @return new mesh
 --TODO: create less vertexes (no duplicates)
-function mesh.add_polygon(mesh, points, colors, constants, options)
+function mesh_helpers.add_polygon(mesh, points, colors, constants, options)
 
   local options = options or {}
 
@@ -128,8 +128,6 @@ function mesh.add_polygon(mesh, points, colors, constants, options)
   local is_closed = options.is_closed or false
   local width = options.width or 1 
   local joint = options.joint or "none"
-
-  print(joint)
 
   if options.is_closed then
     table.insert(points, points[1])
@@ -164,6 +162,45 @@ function mesh.add_polygon(mesh, points, colors, constants, options)
 
     end
 
+    -- dont add joints until creating a second segment
+    -- if i == 2 then goto continue end
+
+    -- create joints only on wide enough lines
+    if width >= 10 then
+
+      local joint_position = points[i-1]
+      local joint_color = colors[i-1]
+      local real_line_width = (width-1) * constants.FAKE_WIDTH_LINE_GAP
+
+      if joint == "round" then
+        local joint_radius = real_line_width / 2
+
+        local joint_points = {}
+        for a=0, 2*math.pi, 2*math.pi/36 do
+
+          for r=0, joint_radius, 0.5 do
+            local x = joint_position[1] + r * math.cos(a)
+            local y = joint_position[2] + r * math.sin(a)
+            table.insert(joint_points, {x, y, joint_position[3]})
+          end
+          
+          local r2 = joint_radius + 0.5
+          local x = joint_position[1] + r2 * math.cos(a)
+          local y = joint_position[2] + r2 * math.sin(a)
+          table.insert(joint_points, {x, y, joint_position[3]})
+        end
+
+        local joint_colors = {}
+        for n=1, #joint_points do
+          table.insert(joint_colors, joint_color)
+        end
+
+        mesh = mesh_helpers.add_polygon(mesh, joint_points, joint_colors,
+          constants, {is_closed=true})
+      end
+
+    end
+
     ::continue::
   end
 
@@ -171,4 +208,4 @@ function mesh.add_polygon(mesh, points, colors, constants, options)
 end
 
 
-return mesh
+return mesh_helpers
