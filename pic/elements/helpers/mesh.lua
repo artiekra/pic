@@ -170,7 +170,7 @@ function mesh_helpers.add_polygon(mesh, points, colors, constants, options)
 
       local joint_position = points[i-1]
       local joint_color = colors[i-1]
-      local real_line_width = (width-1) * constants.FAKE_WIDTH_LINE_GAP
+      local real_line_width = (width+1) * constants.FAKE_WIDTH_LINE_GAP
 
       if joint == "round" then
         local joint_radius = real_line_width / 2
@@ -184,10 +184,6 @@ function mesh_helpers.add_polygon(mesh, points, colors, constants, options)
             table.insert(joint_points, {x, y, joint_position[3]})
           end
           
-          local r2 = joint_radius + 0.5
-          local x = joint_position[1] + r2 * math.cos(a)
-          local y = joint_position[2] + r2 * math.sin(a)
-          table.insert(joint_points, {x, y, joint_position[3]})
         end
 
         local joint_colors = {}
