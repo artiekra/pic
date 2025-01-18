@@ -51,4 +51,15 @@ add_type_methods("ColorRGBA", ColorRgbaClass)
 add_type_methods("ColorHSV", ColorHsvClass)
 
 
+function pic.compile_meshes(...)
+  
+  local results = {}
+  for _, mesh in ipairs(table.pack(...)) do
+    table.insert(results, mesh:compile())
+  end
+  
+  return results
+end
+
+
 return pic 

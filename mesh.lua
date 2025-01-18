@@ -112,13 +112,14 @@ mesh6:new_line({80, 30}, {110, 0}, 0xffffffff)  -- for reference
 print_memory_usage("extra tests")
 
 
--- print(inspect(mesh1))
+-- Test different methods of compiling meshes
 local mesh1_compiled = mesh1:compile()
 local mesh2_compiled = mesh2:compile()
 local mesh3_compiled = mesh3:compile()
 local mesh4_compiled = mesh4:compile()
-local mesh5_compiled = mesh5:compile()
-local mesh6_compiled = mesh6:compile()
+local mesh5_compiled, mesh6_compiled = table.unpack(
+  pic.compile_meshes(mesh5, mesh6)
+)
 
 print_memory_usage("mesh compilation")
 
