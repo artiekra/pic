@@ -16,6 +16,10 @@ print_memory_usage("after import")
 local mesh1 = pic.Mesh:new({FAKE_WIDTH_LINE_GAP = 0.65})
 
 
+mesh1:new_line({10, 200}, {50, 160}, {0xff0000ff,0x0000ffff, 0xffff00ff},
+  {width=5, no_gradient=true})
+
+
 print_memory_usage("after creating a mesh")
 
 
