@@ -4,9 +4,22 @@ pewpew.set_level_size(500fx, 500fx)
 -- Create test meshes
 local function create_meshes()
 
-  local mesh = pewpew.new_customizable_entity(0fx, 0fx)
-  pewpew.customizable_entity_start_spawning(mesh, 0)
-  pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", 0)
+  -- Create a single test mesh with a label
+  local function create_mesh(text, index)
+    local label = pewpew.new_customizable_entity(
+      0fx, -100*fmath.to_fixedpoint(index))
+    pewpew.customizable_entity_start_spawning(label, 0)
+    pewpew.customizable_entity_set_string(label, text)
+
+    local mesh = pewpew.new_customizable_entity(
+      100fx, -100*fmath.to_fixedpoint(index))
+    pewpew.customizable_entity_start_spawning(mesh, 0)
+    pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", 0)
+  end
+
+  create_mesh("Simple Lines", 0)
+  create_mesh("Shape Transforms", 1)
+  create_mesh("Simple Polygons", 2)
 
 end
 
