@@ -1,7 +1,7 @@
 {
-  "name": "#2fcdffffpic #fffffffftests",
+  "name": "#a81c44ffpic #ffffffff▹ showcase",
   "descriptions": [
-    "Test level for the #2fcdffffpic #fffffffflib"
+    "Advanced OOP Mesh Helper Library"
   ],
   "entry_point": "level.lua",
   "has_score_leaderboard": false
