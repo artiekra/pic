@@ -14,7 +14,7 @@ local function create_meshes()
     local mesh = pewpew.new_customizable_entity(
       100fx, -100*fmath.to_fixedpoint(index))
     pewpew.customizable_entity_start_spawning(mesh, 0)
-    pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", 0)
+    pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", index)
   end
 
   create_mesh("Simple Lines", 0)

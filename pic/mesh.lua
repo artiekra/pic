@@ -81,8 +81,8 @@ function Mesh:new(constants)
 
   local object = setmetatable({}, self)
 
-  self.elements = {}
-  self.constants = parse_mesh_constants(constants)
+  object.elements = {}
+  object.constants = parse_mesh_constants(constants)
 
   return object
 
