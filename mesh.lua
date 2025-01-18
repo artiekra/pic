@@ -1,117 +1,128 @@
 local pic = require("/dynamic/pic/.lua")
 local inspect = require("/dynamic/inspect.lua")
 
-local TEST_PERFORMANCE = false
-
 
 local function print_memory_usage(title)
-  print("🕑" .. " Memory used " .. collectgarbage("count") ..
-   " - " .. title)
+
+  local value = string.format("%.3f", collectgarbage("count"))
+  print("🕑" .. " Memory used " .. value ..
+   ' - after test "' .. title .. '"')
+
 end
 
 
-print_memory_usage("after import")
+print_memory_usage("import libs")
 
 
+-- Test creating mesh objects, both normally and
+-- specifying custom constants
 local mesh1 = pic.Mesh:new({FAKE_WIDTH_LINE_GAP = 0.65})
 local mesh2 = pic.Mesh:new()
 local mesh3 = pic.Mesh:new()
+local mesh4 = pic.Mesh:new()
+local mesh5 = pic.Mesh:new()
+local mesh6 = pic.Mesh:new()
 
 
-mesh1:new_line({10, 200}, {50, 160}, {0xff0000ff,0x0000ffff, 0xffff00ff},
-  {width=5, no_gradient=true})
-
-
-print_memory_usage("after creating a mesh")
+print_memory_usage("create Mesh objects")
 
 
 -- Test basic Line creation
-mesh1:new_line({-200, 200}, {-160, 160}, {0xff0000ff})
+mesh1:new_line({0, 30}, {60, -30}, 0xff0000ff)
 
 -- Test different number of colors being used
-mesh1:new_line({-160, 200}, {-120, 160}, {0xff0000ff, 0x0000ffff})
-mesh1:new_line({-140, 200}, {-100, 160}, {0x0000ffff, 0xff0000ff, 0xffff00ff})
+mesh1:new_line({80, 30}, {140, -30}, {0xff0000ff, 0x0000ffff})
+mesh1:new_line({160, 30}, {220, -30}, {0x0000ffff, 0xff0000ff, 0xffff00ff})
 
--- Line should not be visible
-mesh1:new_line({-180, 200}, {-140, 160})
-mesh1:new_line({-180, 200}, {-160, 180}, 0xffffffff)  -- for reference
-
--- Test different Point types
-mesh1:new_line(pic.Point(-110, 200), pic.PointPolar(180, 2.05, 10), 0x00ff00ff)
-
--- Random line with lots of colors (and z-axis involved)
-mesh1:new_line({-80, 200}, {-20, 200, -50}, {0x0000ffff, 0xff0000ff,
+-- Lots of colors and z-axis involved
+mesh1:new_line({240, 30}, {300, -30, -50}, {0x0000ffff, 0xff0000ff,
   0xffff00ff, 0x00ff00ff, 0xffffffff, 0xff00ffff})
 
--- Test different Color types
-mesh1:new_line({-80, 190}, {-20, 190, -25}, {pic.Color(0xff0000ff),
-  pic.ColorRGB(0, 0, 255), pic.ColorRGBA(255, 255, 0, 50),
-  pic.ColorHSV(180, 1, 0.5)})
-
 -- Test for the no_gradient option
-local no_gradient = mesh1:new_line({-80, 180}, {-20, 180}, {0x0000ffff,
+local no_gradient = mesh1:new_line({320, 30}, {380, -30}, {0x0000ffff,
   0xff0000ff, 0xffff00ff}, {no_gradient=true})
 -- print(inspect(no_gradient:compile()))
 
 -- Test for wider lines (width option)
-mesh1:new_line({-10, 200}, {30, 160}, {0xff0000ff,0x0000ffff, 0xffff00ff},
+mesh1:new_line({400, 30}, {460, -30}, 0xff0000ff, {width=5})
+mesh1:new_line({480, 30}, {540, -30}, {0xff0000ff, 0x0000ffff, 0xffff00ff},
   {width=2, no_gradient=true})  -- combining options too
-mesh1:new_line({10, 200}, {50, 160}, {0xff0000ff,0x0000ffff, 0xffff00ff},
+mesh1:new_line({560, 30}, {620, -30}, {0xff0000ff, 0x0000ffff, 0xffff00ff},
   {width=5, no_gradient=true})
-mesh1:new_line({30, 200}, {70, 160},
-  {0xff0000ff,0x0000ffff, 0xffff00ff}, {width=5})
+mesh1:new_line({640, 30}, {700, -30}, {0xff0000ff,
+  0x0000ffff, 0xffff00ff}, {width=5})
 
 
-print_memory_usage("after creating basic lines")
-
-
--- Test transforms
-mesh3:new_line({-200, 120}, {-160, 80}, 0xff0000ff)  -- for reference
-local orange_line = mesh3:new_line({-200, 120}, {-160, 80}, 0xff5000ff)
-orange_line:move(20, 5, -20)
-orange_line:rotate({32/36*math.pi, 32/36*math.pi,
-  32/36*math.pi}, {-160, 105, -20})
-orange_line:scale(5)
-orange_line:shear(1.5, 2)
--- print(inspect(line:compile()))
-
-
-print_memory_usage("after creating a line with transforms")
+print_memory_usage("object Line")
 
 
 -- Test basic polygons
-mesh2:new_polygon({{-200, 40}, {-160, 0}, {-180, 35}},
-  {0xff0000ff, 0xff0000ff, 0xff0000ff})
-mesh2:new_polygon({{-160, 40}, {-120, 0}, {-140, 35}},
+mesh2:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
+mesh2:new_polygon({{80, 30}, {110, -30}, {140, 0}},
   {0x0000ffff, 0xff0000ff, 0xffff00ff})
-mesh2:new_polygon({{-120, 40}, {-80, 0}, {-100, 35}},
+mesh2:new_polygon({{160, 30}, {190, -30}, {220, 0}},
   0x00ff00ff, {is_closed=false})
-mesh2:new_polygon({{-115, 40}, {-75, 0}, {-95, 35}})  -- should not be visible
 
 -- Polygons with different width and joint style
-mesh2:new_polygon({{-75, 40}, {-25, 0}, {-45, 35}},
+mesh2:new_polygon({{240, 30}, {270, -30}, {300, 0}},
   {0xff0000ff, 0x00ff00ff, 0x0000ffff}, {width=10, joint="round"})
 
 
-print_memory_usage("after creating basic polygons")
+print_memory_usage("object Polygon")
 
 
--- Performance stuff
-if TEST_PERFORMANCE then
-  for i=0, 1000 do
-    mesh1:new_line({-200+i/2, 40}, {-180+i/2, 0}, 0x00ffff20)
-  end
-  print_memory_usage("after adding 1000 simple lines")
-end
+-- Test transforms
+mesh3:new_line({0, 30}, {60, -30}, 0xff0000ff)  -- for reference
+local obj = mesh3:new_line({80, 30}, {140, -30}, 0xff5000ff)
+-- obj:move(20, 5, -20)
+-- obj:rotate({32/36*math.pi, 32/36*math.pi,
+--   32/36*math.pi}, {30, 0, -20})
+-- obj:scale(5)
+-- obj:shear(1.5, 2)
+-- print(inspect(obj:compile()))
+
+
+print_memory_usage("transforms")
+
+
+-- test different point types
+-- mesh4:new_line(pic.Point(0, 30), pic.PointPolar(180, 2.05, 10), 0x00ff00ff)
+
+
+print_memory_usage("point types")
+
+
+-- Test different Color types
+mesh5:new_line({0, 30}, {60, -30, -25}, {pic.Color(0xff0000ff),
+  pic.ColorRGB(0, 0, 255), pic.ColorRGBA(255, 255, 0, 50),
+  pic.ColorHSV(180, 1, 0.5)})
+
+
+print_memory_usage("color types")
+
+
+-- Line should not be visible (test for implying default value,
+-- when no colors specified)
+mesh6:new_line({0, 30}, {60, -30})
+mesh6:new_line({0, 30}, {30, 0}, 0xffffffff)  -- for reference
+mesh6:new_polygon({{80, 30}, {110, -30}, {140, 0}})
+mesh6:new_line({80, 30}, {110, 0}, 0xffffffff)  -- for reference
+
+
+print_memory_usage("extra tests")
 
 
 -- print(inspect(mesh1))
 local mesh1_compiled = mesh1:compile()
 local mesh2_compiled = mesh2:compile()
 local mesh3_compiled = mesh3:compile()
+local mesh4_compiled = mesh4:compile()
+local mesh5_compiled = mesh5:compile()
+local mesh6_compiled = mesh6:compile()
 
-print_memory_usage("after mesh compilation")
+print_memory_usage("mesh compilation")
 
-meshes = {mesh1_compiled, mesh2_compiled, mesh3_compiled}
+meshes = {mesh1_compiled, mesh2_compiled, mesh3_compiled,
+  mesh4_compiled, mesh5_compiled, mesh6_compiled}
 
 -- print(inspect(meshes))

@@ -7,32 +7,35 @@ local function create_meshes()
   -- Create a single test mesh with a label
   local function create_mesh(text, index)
     local label = pewpew.new_customizable_entity(
-      0fx, -100*fmath.to_fixedpoint(index))
+      0fx, -80*fmath.to_fixedpoint(index))
     pewpew.customizable_entity_start_spawning(label, 0)
     pewpew.customizable_entity_set_string(label, text)
 
     local mesh = pewpew.new_customizable_entity(
-      100fx, -100*fmath.to_fixedpoint(index))
+      150fx, -80*fmath.to_fixedpoint(index))
     pewpew.customizable_entity_start_spawning(mesh, 0)
     pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", index)
   end
 
-  create_mesh("Simple Lines", 0)
-  create_mesh("Shape Transforms", 1)
-  create_mesh("Simple Polygons", 2)
+  create_mesh("Line object", 0)
+  create_mesh("Polygon object", 1)
+  create_mesh("Transforms", 2)
+  create_mesh("Point types", 3)
+  create_mesh("Color types", 4)
+  create_mesh("Extra tests", 5)
 
 end
 
 
-local camera_current_x_override = 0fx
-local camera_current_y_override = 0fx
-local camera_current_distance = 0fx
+local camera_current_x_override = 300fx
+local camera_current_y_override = -200fx
+local camera_current_distance = -400fx
 
 
 -- Execute every tick
 local function level_tick()
-  local camera_movement_speed = 5
-  local camera_zoom_speed = 10fx
+  local camera_movement_speed = (1050fx - camera_current_distance) / 80fx
+  local camera_zoom_speed = 12fx
 
   local player_amount = pewpew.get_number_of_players()
   for player_id = 0, player_amount-1 do
