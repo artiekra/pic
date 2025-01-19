@@ -56,7 +56,7 @@ mesh1:new_line({640, 30}, {700, -30}, {0xff0000ff,
 print_memory_usage("object Line")
 
 
--- Test basic polygons
+-- Test basic Polygons
 mesh2:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
 mesh2:new_polygon({{80, 30}, {110, -30}, {140, 0}},
   {0x0000ffff, 0xff0000ff, 0xffff00ff})
@@ -67,14 +67,18 @@ mesh2:new_polygon({{160, 30}, {190, -30}, {220, 0}},
 mesh2:new_polygon({{240, 30}, {270, -30}, {300, 0}},
   {0xff0000ff, 0x00ff00ff, 0x0000ffff}, {width=10, joint="round"})
 
+-- More complex polygonal chain
+mesh2:new_polygon({{320, 30}, {340, 0}, {320, -30}, {360, -15, -50},
+  {380, 15, -50}}, 0xff0000ff)
+
 
 print_memory_usage("object Polygon")
 
 
 -- Test transforms
 mesh3:new_line({0, 30}, {60, -30}, 0xff0000ff)  -- for reference
-local obj = mesh3:new_line({80, 30}, {140, -30}, 0xff5000ff)
--- obj:move(20, 5, -20)
+mesh3:new_line({10, 25, 20}, {70, -35, 20}, 0xff8000ff):move(70, 5, -20)
+mesh3:new_line({0, 30}, {60, -30}, 0xffff00ff):move(160, nil)
 -- obj:rotate({32/36*math.pi, 32/36*math.pi,
 --   32/36*math.pi}, {30, 0, -20})
 -- obj:scale(5)
