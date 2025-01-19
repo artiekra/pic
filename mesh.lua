@@ -22,6 +22,7 @@ local mesh3 = pic.Mesh:new()
 local mesh4 = pic.Mesh:new()
 local mesh5 = pic.Mesh:new()
 local mesh6 = pic.Mesh:new()
+local mesh7 = pic.Mesh:new()
 
 
 print_memory_usage("create Mesh objects")
@@ -92,15 +93,24 @@ mesh3:new_line({240, 30}, {300, -30}, 0x80ff00ff):rotate(
 print_memory_usage("transforms")
 
 
+-- Test mesh-wide transforms
+mesh4:new_line({0, 30}, {60, -30}, 0xff0000ff)
+mesh4:move({80, 0})
+
+
+print_memory_usage("mesh transforms")
+
+
+
 -- test different point types
--- mesh4:new_line(pic.Point(0, 30), pic.PointPolar(180, 2.05, 10), 0x00ff00ff)
+-- mesh5:new_line(pic.Point(0, 30), pic.PointPolar(180, 2.05, 10), 0x00ff00ff)
 
 
 print_memory_usage("point types")
 
 
 -- Test different Color types
-mesh5:new_line({0, 30}, {60, -30, -25}, {pic.Color(0xff0000ff),
+mesh6:new_line({0, 30}, {60, -30, -25}, {pic.Color(0xff0000ff),
   pic.ColorRGB(0, 0, 255), pic.ColorRGBA(255, 255, 0, 50),
   pic.ColorHSV(180, 1, 0.5)})
 
@@ -110,10 +120,10 @@ print_memory_usage("color types")
 
 -- Line should not be visible (test for implying default value,
 -- when no colors specified)
-mesh6:new_line({0, 30}, {60, -30})
-mesh6:new_line({0, 30}, {30, 0}, 0xffffffff)  -- for reference
-mesh6:new_polygon({{80, 30}, {110, -30}, {140, 0}})
-mesh6:new_line({80, 30}, {110, 0}, 0xffffffff)  -- for reference
+mesh7:new_line({0, 30}, {60, -30})
+mesh7:new_line({0, 30}, {30, 0}, 0xffffffff)  -- for reference
+mesh7:new_polygon({{80, 30}, {110, -30}, {140, 0}})
+mesh7:new_line({80, 30}, {110, 0}, 0xffffffff)  -- for reference
 
 
 print_memory_usage("extra tests")
@@ -127,10 +137,11 @@ local mesh4_compiled = mesh4:compile()
 local mesh5_compiled, mesh6_compiled = table.unpack(
   pic.compile_meshes(mesh5, mesh6)
 )
+local mesh7_compiled = mesh7:compile()
 
 print_memory_usage("mesh compilation")
 
 meshes = {mesh1_compiled, mesh2_compiled, mesh3_compiled,
-  mesh4_compiled, mesh5_compiled, mesh6_compiled}
+  mesh4_compiled, mesh5_compiled, mesh6_compiled, mesh7_compiled}
 
 -- print(inspect(meshes))

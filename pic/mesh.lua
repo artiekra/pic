@@ -1,7 +1,7 @@
 -- Meta Mesh class
 -- TODO: implement mesh-wide offset (potentially?)
 -- TODO: implement mesh-wide transforms
-Mesh = {elements = {}, constants = {}}
+Mesh = {elements = {}, constants = {}, transforms = {}}
 Mesh.__index = Mesh
 
 -- Get current path for relative imports
@@ -18,9 +18,14 @@ local function relative_import(file)
 end
 
 
+local constant_defaults = relative_import("defaults.lua")
+local class_helpers = relative_import("elements/helpers/class.lua")
+
+local transform_move = relative_import("elements/transforms/move.lua")
+local transform_rotate = relative_import("elements/transforms/rotate.lua")
+
 local Line = relative_import("elements/line.lua")
 local Polygon = relative_import("elements/polygon.lua")
-local constant_defaults = relative_import("defaults.lua")
 
 
 --- Merge two tables into one.
@@ -83,6 +88,7 @@ function Mesh:new(constants)
 
   object.elements = {}
   object.constants = parse_mesh_constants(constants)
+  object.transforms = {}
 
   return object
 
@@ -123,10 +129,23 @@ function Mesh:compile()
 
   end
 
+  local mesh = {computed_vertexes, computed_segments, computed_colors}
+  
+  for _, transform in ipairs(self.transforms) do
+    local transform_type = transform[1]
+    local transform_options = transform[2]
+
+    if transform_type == "move" then
+      mesh = transform_move.apply(mesh, transform_options)
+    elseif transform_type == "rotate" then
+      mesh = transform_rotate.apply(mesh, transform_options)
+    end
+  end
+
   local result = {
-    vertexes = computed_vertexes,
-    segments = computed_segments,
-    colors = computed_colors
+    vertexes = mesh[1],
+    segments = mesh[2],
+    colors = mesh[3] 
   }
 
   return result
@@ -152,6 +171,8 @@ end
 
 add_element_methods("line", Line)
 add_element_methods("polygon", Polygon)
+
+class_helpers.add_transform_methods(Mesh)
 
 
 return Mesh

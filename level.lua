@@ -20,9 +20,10 @@ local function create_meshes()
   create_mesh("Line object", 0)
   create_mesh("Polygon object", 1)
   create_mesh("Transforms", 2)
-  create_mesh("Point types", 3)
-  create_mesh("Color types", 4)
-  create_mesh("Extra tests", 5)
+  create_mesh("Mesh transforms", 3)
+  create_mesh("Point types", 4)
+  create_mesh("Color types", 5)
+  create_mesh("Extra tests", 6)
 
 end
 
