@@ -1,6 +1,42 @@
 local transform_rotate = {}
 
 
+-- Get current path for relative imports
+local current_file = ...
+
+
+-- Deduct the path of the library for relative imports
+-- (with support for going up the directory tree)
+local function relative_import(file)
+    local library_folder = current_file:match("(.+)/[^/]*$") .. "/"
+    
+    -- split both paths into segments
+    local base_segments = {}
+    for segment in library_folder:gmatch("[^/]+") do
+        table.insert(base_segments, segment)
+    end
+    
+    local file_segments = {}
+    for segment in file:gmatch("[^/]+") do
+        if segment == ".." then
+            -- remove last segment when we see ..
+            table.remove(base_segments)
+        else
+            table.insert(file_segments, segment)
+        end
+    end
+    
+    -- reconstruct the path
+    local final_path = table.concat(base_segments, "/") .. "/" ..
+      table.concat(file_segments, "/")
+    
+    return require("/" .. final_path)
+end
+
+
+local vertex_helpers = relative_import("../helpers/vertex.lua")
+
+
 --- Apply the rotation transform to the vertex.
 -- Rotates a vertex according to the origin
 -- @param vertex table containing x,y,z coordinates of the vertex to rotate
@@ -12,8 +48,10 @@ local function apply_to_vertex(vertex, options)
     -- Unpack input coordinates
     -- TODO: implement auto-detection of the center of the shape
     local x, y, z = table.unpack(vertex)
-    local origin_x, origin_y, origin_z = table.unpack(options[2] or {0,0,0})
-    local rot_x, rot_y, rot_z = table.unpack(options[1] or {0,0,0})
+    local rot = vertex_helpers.compile(options[1])
+    local origin = vertex_helpers.compile(options[2])
+    local rot_x, rot_y, rot_z = table.unpack(rot)
+    local origin_x, origin_y, origin_z = table.unpack(origin)
     
     -- Translate point to origin
     x = x - origin_x

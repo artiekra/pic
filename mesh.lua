@@ -78,7 +78,10 @@ print_memory_usage("object Polygon")
 -- Test transforms
 mesh3:new_line({0, 30}, {60, -30}, 0xff0000ff)  -- for reference
 mesh3:new_line({10, 25, 20}, {70, -35, 20}, 0xff8000ff):move({70, 5, -20})
--- mesh3:new_line({0, 30}, {60, -30}, 0xffff00ff):move(160, nil)
+mesh3:new_line({0, 30}, {60, -30}, 0xffff00ff):move(pic.PointPolar(160, 0))
+mesh3:new_line({240, 30}, {300, -30}, 0x80ff00ff):rotate(
+  {32/36*math.pi, 32/36*math.pi, 32/36*math.pi}, {270, 0}
+)
 -- obj:rotate({32/36*math.pi, 32/36*math.pi,
 --   32/36*math.pi}, {30, 0, -20})
 -- obj:scale(5)
