@@ -1,4 +1,4 @@
-local pic = require("/dynamic/pic/.lua")
+local pic = require("/dynamic/pic/init.lua")
 local inspect = require("/dynamic/inspect.lua")
 
 
