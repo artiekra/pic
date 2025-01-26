@@ -83,11 +83,8 @@ mesh3:new_line({0, 30}, {60, -30}, 0xffff00ff):move(pic.PointPolar(160, 0))
 mesh3:new_line({240, 30}, {300, -30}, 0x80ff00ff):rotate(
   {32/36*math.pi, 32/36*math.pi, 32/36*math.pi}, {270, 0}
 )
--- obj:rotate({32/36*math.pi, 32/36*math.pi,
---   32/36*math.pi}, {30, 0, -20})
--- obj:scale(5)
--- obj:shear(1.5, 2)
--- print(inspect(obj:compile()))
+mesh3:new_line({335, 15}, {365, -15}, 0x00ff00ff):scale({2, 2.5, 0}, {350, 0})
+mesh3:new_line({430, 30}, {430, -30}, 0x00ff80ff):shear({-1, 0, 10}, {430, 0})
 
 
 print_memory_usage("transforms")

@@ -26,6 +26,8 @@ local class_helpers = relative_import("helpers/class.lua")
 
 local transform_move = relative_import("transforms/move.lua")
 local transform_rotate = relative_import("transforms/rotate.lua")
+local transform_scale = relative_import("transforms/scale.lua")
+local transform_shear = relative_import("transforms/shear.lua")
 
 
 --- Parse Line object options
@@ -143,6 +145,10 @@ function Line:compile(constants)
       mesh = transform_move.apply(mesh, transform_options)
     elseif transform_type == "rotate" then
       mesh = transform_rotate.apply(mesh, transform_options)
+    elseif transform_type == "scale" then
+      mesh = transform_scale.apply(mesh, transform_options)
+    elseif transform_type == "shear" then
+      mesh = transform_shear.apply(mesh, transform_options)
     end
   end
 

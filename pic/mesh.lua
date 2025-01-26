@@ -23,6 +23,8 @@ local class_helpers = relative_import("elements/helpers/class.lua")
 
 local transform_move = relative_import("elements/transforms/move.lua")
 local transform_rotate = relative_import("elements/transforms/rotate.lua")
+local transform_scale = relative_import("elements/transforms/scale.lua")
+local transform_shear = relative_import("elements/transforms/shear.lua")
 
 local Line = relative_import("elements/line.lua")
 local Polygon = relative_import("elements/polygon.lua")
@@ -139,6 +141,10 @@ function Mesh:compile()
       mesh = transform_move.apply(mesh, transform_options)
     elseif transform_type == "rotate" then
       mesh = transform_rotate.apply(mesh, transform_options)
+    elseif transform_type == "scale" then
+      mesh = transform_scale.apply(mesh, transform_options)
+    elseif transform_type == "shear" then
+      mesh = transform_shear.apply(mesh, transform_options)
     end
   end
 
