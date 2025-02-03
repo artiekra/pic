@@ -1,15 +1,25 @@
 pewpew.set_level_size(500fx, 500fx)
 
 
+-- Create a label
+local function create_label(x, y, text, scale)
+  local label = pewpew.new_customizable_entity(x, y)
+  pewpew.customizable_entity_start_spawning(label, 0)
+  pewpew.customizable_entity_set_string(label, text)
+  pewpew.customizable_entity_set_mesh_scale(label, scale)
+  return label
+end
+
+
 -- Create test meshes
 local function create_meshes()
 
   -- Create a single test mesh with a label
   local function create_mesh(text, index)
-    local label = pewpew.new_customizable_entity(
-      0fx, -80*fmath.to_fixedpoint(index))
-    pewpew.customizable_entity_start_spawning(label, 0)
-    pewpew.customizable_entity_set_string(label, text)
+    create_label(-175fx, -80*fmath.to_fixedpoint(index),
+      "#808080ff"..index, 4fx/5fx)
+    create_label(0fx, -80*fmath.to_fixedpoint(index),
+      text, 4fx/5fx)
 
     local mesh = pewpew.new_customizable_entity(
       150fx, -80*fmath.to_fixedpoint(index))
@@ -17,15 +27,16 @@ local function create_meshes()
     pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", index)
   end
 
-  create_mesh("Line object", 0)
-  create_mesh("Polygon object", 1)
-  create_mesh("Transforms", 2)
-  create_mesh("Mesh transforms", 3)
-  create_mesh("Point types", 4)
-  create_mesh("Color types", 5)
-  create_mesh("Extra tests", 6)
+  mesh_names = {"Line object", "Polygon object", "Transforms",
+    "Mesh transforms", "Point types", "Color types", "Extra tests"}
+  for i, mesh_name in ipairs(mesh_names) do
+    create_mesh(mesh_name, i-1)
+  end
 
 end
+
+
+create_label(40fx, 125fx, "Tests for #a81c44ffpic #ffffffff(v1.0.0)", 3fx/2fx)
 
 
 local camera_current_x_override = 300fx
