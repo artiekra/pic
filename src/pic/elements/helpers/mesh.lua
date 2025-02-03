@@ -113,6 +113,38 @@ local function increase_line_width(mesh, points, colors, gap)
 end
 
 
+--- Add a circle to a mesh
+-- @param mesh existing mesh or nil to create new one
+-- @param cx center x coordinate
+-- @param cy center y coordinate
+-- @param radius circle radius
+-- @param segments number of segments to approximate circle
+-- @param color color(s) for circle points (single color or table of colors)
+-- @param options options table (is_closed, width etc)
+-- @return mesh with added circle
+function mesh_helpers.add_circle(mesh, cx, cy, radius, segments, colors, constants, options)
+    local points = {}
+    local color_table = {}
+    local angle_step = 2 * math.pi / segments
+    
+    for i = 0, segments do
+        local angle = i * angle_step
+        local x = cx + radius * math.cos(angle)
+        local y = cy + radius * math.sin(angle)
+        table.insert(points, {x, y})
+        
+        if type(colors) == "table" and #colors > 1 then
+            table.insert(color_table, colors[(i % #colors) + 1])
+        else
+            table.insert(color_table, colors or {1,1,1})  -- default white
+        end
+    end
+    
+    local options = options or {is_closed = true}
+    return mesh_helpers.add_polygon(mesh, points, color_table, constants, options)
+end
+
+
 --- Add a polygon to a mesh (represented as VSC)
 -- @param mesh existing mesh or nil to create a new one
 -- @colors one color for each point
