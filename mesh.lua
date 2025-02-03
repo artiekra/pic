@@ -62,11 +62,13 @@ mesh2:new_polygon({{240, 30}, {270, -30}, {300, 0}},
 mesh2:new_polygon({{320, 30}, {340, 0}, {320, -30}, {360, -15, -50},
   {380, 15, -50}}, 0xff0000ff)
 
-
 -- Test transforms, since separate transform tests are
 --  only performed on Line object
 mesh2:new_polygon({{400, 10}, {430, -50}, {460, -20}},
   {0xff8000ff, 0xff8000ff, 0xff8000ff}):move({0, 20, 0})
+
+-- Test Chain as a Polygon alias
+mesh2:new_chain({{480, 30}, {510, -30}, {540, 0}}, 0x00ff00ff)
 
 
 pic.print_memory_usage("Polygon object tests")
