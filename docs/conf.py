@@ -10,6 +10,6 @@ extensions = ['myst_parser']  # enable markdown support
 
 templates_path = ['_templates']
 exclude_patterns = []
-html_theme = 'alabaster'  # or 'sphinx_rtd_theme'
+html_theme = 'sphinx_rtd_theme'  # or 'sphinx_rtd_theme'
 
 source_suffix = ['.rst', '.md']
