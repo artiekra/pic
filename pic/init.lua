@@ -55,10 +55,28 @@ add_type_methods("ColorRGBA", ColorRgbaClass)
 add_type_methods("ColorHSV", ColorHsvClass)
 
 
-function pic.compile_meshes(...)
+--- Define many meshes
+function pic.define_meshes(n, constants)
+
+  local n = n or 1
+
+  local meshes = {}
+  for i=1, n do
+    
+    local new_mesh = pic.Mesh:new(constants)
+    table.insert(meshes, new_mesh)
+
+  end
+
+  return meshes
+end
+
+
+--- Compile many meshes
+function pic.compile_meshes(meshes)
   
   local results = {}
-  for _, mesh in ipairs(table.pack(...)) do
+  for _, mesh in ipairs(meshes) do
     table.insert(results, mesh:compile())
   end
   

@@ -6,14 +6,13 @@ pic.print_memory_usage("After importing libs")
 
 
 -- Test creating mesh objects, both normally and
--- specifying custom constants
+--  specifying custom constants; test pic.define_meshes()
 local mesh1 = pic.Mesh:new({FAKE_WIDTH_LINE_GAP = 0.65})
 local mesh2 = pic.Mesh:new()
 local mesh3 = pic.Mesh:new()
-local mesh4 = pic.Mesh:new()
-local mesh5 = pic.Mesh:new()
-local mesh6 = pic.Mesh:new()
-local mesh7 = pic.Mesh:new()
+local mesh4, mesh5 = table.unpack(pic.define_meshes(2))
+local mesh6, mesh7 = table.unpack(
+  pic.define_meshes(2, {FAKE_WIDTH_LINE_GAP = 0.65}))
 
 
 pic.print_memory_usage("Creating Mesh objects")
@@ -129,7 +128,7 @@ local mesh2_compiled = mesh2:compile()
 local mesh3_compiled = mesh3:compile()
 local mesh4_compiled = mesh4:compile()
 local mesh5_compiled, mesh6_compiled = table.unpack(
-  pic.compile_meshes(mesh5, mesh6)
+  pic.compile_meshes({mesh5, mesh6})
 )
 local mesh7_compiled = mesh7:compile()
 
