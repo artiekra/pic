@@ -13,6 +13,7 @@ local mesh3 = pic.Mesh:new()
 local mesh4, mesh5 = table.unpack(pic.define_meshes(2))
 local mesh6, mesh7 = table.unpack(
   pic.define_meshes(2, {FAKE_WIDTH_LINE_GAP = 0.65}))
+local mesh8 = pic.Mesh:new()
 
 
 pic.print_memory_usage("Creating Mesh objects")
@@ -74,6 +75,13 @@ mesh2:new_chain({{480, 30}, {510, -30}, {540, 0}}, 0x00ff00ff)
 pic.print_memory_usage("Polygon object tests")
 
 
+-- Test other shapes
+mesh8:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
+
+
+pic.print_memory_usage("Testing other shapes")
+
+
 -- Test transforms
 mesh3:new_line({0, 30}, {60, -30}, 0xff0000ff)  -- for reference
 mesh3:new_line({10, 25, 20}, {70, -35, 20}, 0xff8000ff):move({70, 5, -20})
@@ -133,10 +141,11 @@ local mesh5_compiled, mesh6_compiled = table.unpack(
   pic.compile_meshes({mesh5, mesh6})
 )
 local mesh7_compiled = mesh7:compile()
+local mesh8_compiled = mesh8:compile()
 
 pic.print_memory_usage("Mesh compilation")
 
-meshes = {mesh1_compiled, mesh2_compiled, mesh3_compiled,
+meshes = {mesh1_compiled, mesh2_compiled, mesh8_compiled, mesh3_compiled,
   mesh4_compiled, mesh5_compiled, mesh6_compiled, mesh7_compiled}
 
 -- print(inspect(meshes))

@@ -17,7 +17,7 @@ local function create_meshes()
   -- Create a single test mesh with a label
   local function create_mesh(text, index)
     create_label(-175fx, -80*fmath.to_fixedpoint(index),
-      "#808080ff"..index, 4fx/5fx)
+      "#808080ff"..index+1, 4fx/5fx)
     create_label(0fx, -80*fmath.to_fixedpoint(index),
       text, 4fx/5fx)
 
@@ -27,7 +27,7 @@ local function create_meshes()
     pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", index)
   end
 
-  mesh_names = {"Line object", "Polygon object", "Transforms",
+  mesh_names = {"Line object", "Polygon object", "Other shapes", "Transforms",
     "Mesh transforms", "Point types", "Color types", "Extra tests"}
   for i, mesh_name in ipairs(mesh_names) do
     create_mesh(mesh_name, i-1)
