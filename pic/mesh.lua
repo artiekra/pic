@@ -92,6 +92,21 @@ function Mesh:new(constants)
 end
 
 
+--- Prepares mesh's VSC to be used in the game's API
+-- @param mesh VSC mesh
+-- @return mesh table, as per PewPew API specification
+function adapt_mesh_to_ppl(mesh)
+
+  local result = {
+    vertexes = mesh[1],
+    segments = mesh[2],
+    colors = mesh[3] 
+  }
+
+  return result
+end
+
+
 --- Compile Mesh object into VSC table.
 -- Uses the Mesh object to get vertexes, segments
 -- and colors data.
@@ -130,13 +145,9 @@ function Mesh:compile()
   
   mesh = transform_helpers.apply_transforms(mesh, self.transforms)
 
-  local result = {
-    vertexes = mesh[1],
-    segments = mesh[2],
-    colors = mesh[3] 
-  }
+  ppl_mesh = adapt_mesh_to_ppl(mesh)
 
-  return result
+  return ppl_mesh
 end
 
 
