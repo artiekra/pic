@@ -74,6 +74,12 @@ mesh2:new_polygon({{320, 30}, {340, 0}, {320, -30}, {360, -15, -50},
   {380, 15, -50}}, 0xff0000ff)
 
 
+-- Test transforms, since separate transform tests are
+--  only performed on Line object
+mesh2:new_polygon({{400, 10}, {430, -50}, {460, -20}},
+  {0xff8000ff, 0xff8000ff, 0xff8000ff}):move({0, 20, 0})
+
+
 print_memory_usage("object Polygon")
 
 
