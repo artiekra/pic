@@ -20,11 +20,7 @@ end
 
 local constant_defaults = relative_import("defaults.lua")
 local class_helpers = relative_import("elements/helpers/class.lua")
-
-local transform_move = relative_import("elements/transforms/move.lua")
-local transform_rotate = relative_import("elements/transforms/rotate.lua")
-local transform_scale = relative_import("elements/transforms/scale.lua")
-local transform_shear = relative_import("elements/transforms/shear.lua")
+local transform_helpers = relative_import("elements/helpers/transform.lua")
 
 local Line = relative_import("elements/line.lua")
 local Polygon = relative_import("elements/polygon.lua")
@@ -133,20 +129,7 @@ function Mesh:compile()
 
   local mesh = {computed_vertexes, computed_segments, computed_colors}
   
-  for _, transform in ipairs(self.transforms) do
-    local transform_type = transform[1]
-    local transform_options = transform[2]
-
-    if transform_type == "move" then
-      mesh = transform_move.apply(mesh, transform_options)
-    elseif transform_type == "rotate" then
-      mesh = transform_rotate.apply(mesh, transform_options)
-    elseif transform_type == "scale" then
-      mesh = transform_scale.apply(mesh, transform_options)
-    elseif transform_type == "shear" then
-      mesh = transform_shear.apply(mesh, transform_options)
-    end
-  end
+  mesh = transform_helpers.apply_transforms(mesh, self.transforms)
 
   local result = {
     vertexes = mesh[1],

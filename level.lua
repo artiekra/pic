@@ -36,7 +36,8 @@ local function create_meshes()
 end
 
 
-create_label(40fx, 125fx, "Tests for #a81c44ffpic #ffffffff(v1.0.0)", 3fx/2fx)
+local title = "Tests for #a81c44ffpic #ffffffff(v1.0.0)"
+create_label(40fx, 125fx, title, 3fx/2fx)
 
 
 local camera_current_x_override = 300fx

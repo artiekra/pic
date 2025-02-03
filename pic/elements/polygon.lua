@@ -22,11 +22,7 @@ local color_helpers = relative_import("helpers/color.lua")
 local mesh_helpers = relative_import("helpers/mesh.lua")
 local lerp_helpers = relative_import("helpers/lerp.lua")
 local class_helpers = relative_import("helpers/class.lua")
-
-local transform_move = relative_import("transforms/move.lua")
-local transform_rotate = relative_import("transforms/rotate.lua")
-local transform_scale = relative_import("transforms/scale.lua")
-local transform_shear = relative_import("transforms/shear.lua")
+local transform_helpers = relative_import("helpers/transform.lua")
 
 
 --- Parse Polygon object options
@@ -106,20 +102,7 @@ function Polygon:compile(constants)
     computed_colors, constants, {width=self.options.width,
     is_closed=self.options.is_closed, joint=self.options.joint})
 
-  for _, transform in ipairs(self.transforms) do
-    local transform_type = transform[1]
-    local transform_options = transform[2]
-
-    if transform_type == "move" then
-      mesh = transform_move.apply(mesh, transform_options)
-    elseif transform_type == "rotate" then
-      mesh = transform_rotate.apply(mesh, transform_options)
-    elseif transform_type == "scale" then
-      mesh = transform_scale.apply(mesh, transform_options)
-    elseif transform_type == "shear" then
-      mesh = transform_shear.apply(mesh, transform_options)
-    end
-  end
+  mesh = transform_helpers.apply_transforms(mesh, self.transforms)
 
   return mesh
 end
