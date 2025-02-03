@@ -11,6 +11,7 @@ local function print_memory_usage(title)
 end
 
 
+pic.print_memory_usage()
 print_memory_usage("import libs")
 
 

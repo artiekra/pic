@@ -22,7 +22,10 @@ local function relative_import(file)
 end
 
 
+-- Importing and including Mesh class
 pic.Mesh = relative_import("mesh.lua")
+
+-- Import types to be added to the library
 local PointClass = relative_import("types/point.lua")
 local PointPolarClass = relative_import("types/point_polar.lua")
 local ColorClass = relative_import("types/color.lua")
@@ -60,6 +63,17 @@ function pic.compile_meshes(...)
   end
   
   return results
+end
+
+
+function pic.print_memory_usage()
+  
+  local memory_usage_raw = collectgarbage("count")
+  local memory_usage = string.format("%i%s %i%s", memory_usage_raw // 1,
+    "KB", memory_usage_raw % 1 * 1024, "B")
+
+  print("💾 Memory usage: "..memory_usage)
+
 end
 
 
