@@ -2,17 +2,7 @@ local pic = require("/dynamic/pic/init.lua")
 local inspect = require("/dynamic/inspect.lua")
 
 
-local function print_memory_usage(title)
-
-  local value = string.format("%.3f", collectgarbage("count"))
-  print("🕑" .. " Memory used " .. value ..
-   ' - after test "' .. title .. '"')
-
-end
-
-
-pic.print_memory_usage()
-print_memory_usage("import libs")
+pic.print_memory_usage("After importing libs")
 
 
 -- Test creating mesh objects, both normally and
@@ -26,7 +16,7 @@ local mesh6 = pic.Mesh:new()
 local mesh7 = pic.Mesh:new()
 
 
-print_memory_usage("create Mesh objects")
+pic.print_memory_usage("Creating Mesh objects")
 
 
 -- Test basic Line creation
@@ -55,7 +45,7 @@ mesh1:new_line({640, 30}, {700, -30}, {0xff0000ff,
   0x0000ffff, 0xffff00ff}, {width=5})
 
 
-print_memory_usage("object Line")
+pic.print_memory_usage("Line object tests")
 
 
 -- Test basic Polygons
@@ -80,7 +70,7 @@ mesh2:new_polygon({{400, 10}, {430, -50}, {460, -20}},
   {0xff8000ff, 0xff8000ff, 0xff8000ff}):move({0, 20, 0})
 
 
-print_memory_usage("object Polygon")
+pic.print_memory_usage("Polygon object tests")
 
 
 -- Test transforms
@@ -94,7 +84,7 @@ mesh3:new_line({335, 15}, {365, -15}, 0x00ff00ff):scale({2, 2.5, 0}, {350, 0})
 mesh3:new_line({430, 30}, {430, -30}, 0x00ff80ff):shear({-1, 0, 10}, {430, 0})
 
 
-print_memory_usage("transforms")
+pic.print_memory_usage("Transformations")
 
 
 -- Test mesh-wide transforms
@@ -102,7 +92,7 @@ mesh4:new_line({0, 30}, {60, -30}, 0xff0000ff)
 mesh4:move({80, 0})
 
 
-print_memory_usage("mesh transforms")
+pic.print_memory_usage("Mesh transformations")
 
 
 
@@ -110,7 +100,7 @@ print_memory_usage("mesh transforms")
 -- mesh5:new_line(pic.Point(0, 30), pic.PointPolar(180, 2.05, 10), 0x00ff00ff)
 
 
-print_memory_usage("point types")
+pic.print_memory_usage("Point types")
 
 
 -- Test different Color types
@@ -119,7 +109,7 @@ mesh6:new_line({0, 30}, {60, -30, -25}, {pic.Color(0xff0000ff),
   pic.ColorHSV(180, 1, 0.5)})
 
 
-print_memory_usage("color types")
+pic.print_memory_usage("Color types")
 
 
 -- Line should not be visible (test for implying default value,
@@ -130,7 +120,7 @@ mesh7:new_polygon({{80, 30}, {110, -30}, {140, 0}})
 mesh7:new_line({80, 30}, {110, 0}, 0xffffffff)  -- for reference
 
 
-print_memory_usage("extra tests")
+pic.print_memory_usage("Extra tests")
 
 
 -- Test different methods of compiling meshes
@@ -143,7 +133,7 @@ local mesh5_compiled, mesh6_compiled = table.unpack(
 )
 local mesh7_compiled = mesh7:compile()
 
-print_memory_usage("mesh compilation")
+pic.print_memory_usage("Mesh compilation")
 
 meshes = {mesh1_compiled, mesh2_compiled, mesh3_compiled,
   mesh4_compiled, mesh5_compiled, mesh6_compiled, mesh7_compiled}

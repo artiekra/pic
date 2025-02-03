@@ -66,13 +66,19 @@ function pic.compile_meshes(...)
 end
 
 
-function pic.print_memory_usage()
-  
+function pic.print_memory_usage(title)
+
   local memory_usage_raw = collectgarbage("count")
   local memory_usage = string.format("%i%s %i%s", memory_usage_raw // 1,
     "KB", memory_usage_raw % 1 * 1024, "B")
-
-  print("💾 Memory usage: "..memory_usage)
+  
+  if title == nil then
+    print("💾 Memory usage: "..memory_usage)
+  elseif type(title) == "string" then
+    print("💾 "..title.." (memory usage): "..memory_usage)
+  else
+    error("nil or string expected to represent memory usage print title")
+  end
 
 end
 
