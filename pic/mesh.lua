@@ -19,7 +19,6 @@ end
 
 
 local constant_defaults = relative_import("defaults.lua")
-local class_helpers = relative_import("elements/helpers/class.lua")
 local transform_helpers = relative_import("elements/helpers/transform.lua")
 
 local Line = relative_import("elements/line.lua")
@@ -158,10 +157,23 @@ local function add_element_methods(name, class)
 end
 
 
+-- Add a transform method with a given name to a class
+local function add_transform_method(class, name)
+
+  class[name] = function(self, ...)
+    table.insert(self.transforms, {name, {...}})
+  end
+ 
+end
+
+
 add_element_methods("line", Line)
 add_element_methods("polygon", Polygon)
 
-class_helpers.add_transform_methods(Mesh)
+add_transform_method(Mesh, "move")
+add_transform_method(Mesh, "rotate")
+add_transform_method(Mesh, "scale")
+add_transform_method(Mesh, "shear")
 
 
 return Mesh

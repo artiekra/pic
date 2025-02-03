@@ -1,8 +1,3 @@
--- Meta Polygon class
-Polygon = {points = {}, colors = {}, transforms = {}}
-Polygon.__index = Polygon
-
-
 -- Get current path for relative imports
 local current_file = ...
 
@@ -21,8 +16,15 @@ local vertex_helpers = relative_import("helpers/vertex.lua")
 local color_helpers = relative_import("helpers/color.lua")
 local mesh_helpers = relative_import("helpers/mesh.lua")
 local lerp_helpers = relative_import("helpers/lerp.lua")
-local class_helpers = relative_import("helpers/class.lua")
 local transform_helpers = relative_import("helpers/transform.lua")
+
+local ElementBase = relative_import("base.lua")
+
+
+-- Meta Polygon class
+Polygon = {points = {}, colors = {}}
+Polygon  = setmetatable(Polygon, ElementBase)
+Polygon.__index = Polygon
 
 
 --- Parse Polygon object options
@@ -106,9 +108,6 @@ function Polygon:compile(constants)
 
   return mesh
 end
-
-
-class_helpers.add_transform_methods(Polygon)
 
 
 return Polygon

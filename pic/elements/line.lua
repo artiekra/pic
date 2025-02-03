@@ -1,9 +1,3 @@
--- Meta Line class
-Line = {point1 = {}, point2 = {}, colors = {},
-  transforms = {}}
-Line.__index = Line
-
-
 -- Get current path for relative imports
 local current_file = ...
 
@@ -22,8 +16,15 @@ local vertex_helpers = relative_import("helpers/vertex.lua")
 local color_helpers = relative_import("helpers/color.lua")
 local mesh_helpers = relative_import("helpers/mesh.lua")
 local lerp_helpers = relative_import("helpers/lerp.lua")
-local class_helpers = relative_import("helpers/class.lua")
 local transform_helpers = relative_import("helpers/transform.lua")
+
+local ElementBase = relative_import("base.lua")
+
+
+-- Meta Line class
+Line = {point1 = {}, point2 = {}, colors = {}}
+Line = setmetatable(Line, ElementBase)
+Line.__index = Line
 
 
 --- Parse Line object options
@@ -137,9 +138,6 @@ function Line:compile(constants)
 
   return mesh
 end
-
-
-class_helpers.add_transform_methods(Line)
 
 
 return Line
