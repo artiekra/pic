@@ -7,42 +7,35 @@ pic.print_memory_usage("After importing libs")
 
 -- Test creating mesh objects, both normally and
 --  specifying custom constants; test pic.define_meshes()
-local mesh1 = pic.Mesh:new({FAKE_WIDTH_LINE_GAP = 0.65})
-local mesh2 = pic.Mesh:new()
-local mesh3 = pic.Mesh:new()
-local mesh4, mesh5 = table.unpack(pic.define_meshes(2))
-local mesh6, mesh7 = table.unpack(
-  pic.define_meshes(2, {FAKE_WIDTH_LINE_GAP = 0.65}))
-local mesh8 = pic.Mesh:new()
-local mesh9 = pic.Mesh:new()
+local mesh = pic.define_meshes(9, {FAKE_WIDTH_LINE_GAP = 0.65})
 
 
 pic.print_memory_usage("Creating Mesh objects")
 
 
 -- Test basic Line creation
-mesh1:new_line({0, 30}, {60, -30}, 0xff0000ff)
+mesh[1]:new_line({0, 30}, {60, -30}, 0xff0000ff)
 
 -- Test different number of colors being used
-mesh1:new_line({80, 30}, {140, -30}, {0xff0000ff, 0x0000ffff})
-mesh1:new_line({160, 30}, {220, -30}, {0x0000ffff, 0xff0000ff, 0xffff00ff})
+mesh[1]:new_line({80, 30}, {140, -30}, {0xff0000ff, 0x0000ffff})
+mesh[1]:new_line({160, 30}, {220, -30}, {0x0000ffff, 0xff0000ff, 0xffff00ff})
 
 -- Lots of colors and z-axis involved
-mesh1:new_line({240, 30}, {300, -30, -50}, {0x0000ffff, 0xff0000ff,
+mesh[1]:new_line({240, 30}, {300, -30, -50}, {0x0000ffff, 0xff0000ff,
   0xffff00ff, 0x00ff00ff, 0xffffffff, 0xff00ffff})
 
 -- Test for the no_gradient option
-local no_gradient = mesh1:new_line({320, 30}, {380, -30}, {0x0000ffff,
+local no_gradient = mesh[1]:new_line({320, 30}, {380, -30}, {0x0000ffff,
   0xff0000ff, 0xffff00ff}, {no_gradient=true})
 -- print(inspect(no_gradient:compile()))
 
 -- Test for wider lines (width option)
-mesh1:new_line({400, 30}, {460, -30}, 0xff0000ff, {width=5})
-mesh1:new_line({480, 30}, {540, -30}, {0xff0000ff, 0x0000ffff, 0xffff00ff},
+mesh[1]:new_line({400, 30}, {460, -30}, 0xff0000ff, {width=5})
+mesh[1]:new_line({480, 30}, {540, -30}, {0xff0000ff, 0x0000ffff, 0xffff00ff},
   {width=2, no_gradient=true})  -- combining options too
-mesh1:new_line({560, 30}, {620, -30}, {0xff0000ff, 0x0000ffff, 0xffff00ff},
+mesh[1]:new_line({560, 30}, {620, -30}, {0xff0000ff, 0x0000ffff, 0xffff00ff},
   {width=5, no_gradient=true})
-mesh1:new_line({640, 30}, {700, -30}, {0xff0000ff,
+mesh[1]:new_line({640, 30}, {700, -30}, {0xff0000ff,
   0x0000ffff, 0xffff00ff}, {width=5})
 
 
@@ -50,65 +43,67 @@ pic.print_memory_usage("Line object tests")
 
 
 -- Test basic Polygons
-mesh2:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
-mesh2:new_polygon({{80, 30}, {110, -30}, {140, 0}},
+mesh[2]:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
+mesh[2]:new_polygon({{80, 30}, {110, -30}, {140, 0}},
   {0x0000ffff, 0xff0000ff, 0xffff00ff})
-mesh2:new_polygon({{160, 30}, {190, -30}, {220, 0}},
+mesh[2]:new_polygon({{160, 30}, {190, -30}, {220, 0}},
   0x00ff00ff, {is_closed=false})
 
 -- Polygons with different width and joint style
-mesh2:new_polygon({{240, 30}, {270, -30}, {300, 0}},
+mesh[2]:new_polygon({{240, 30}, {270, -30}, {300, 0}},
   {0xff0000ff, 0x00ff00ff, 0x0000ffff}, {width=10, joint="round"})
 
 -- More complex polygonal chain
-mesh2:new_polygon({{320, 30}, {340, 0}, {320, -30}, {360, -15, -50},
+mesh[2]:new_polygon({{320, 30}, {340, 0}, {320, -30}, {360, -15, -50},
   {380, 15, -50}}, 0xff0000ff)
 
 -- Test transforms, since separate transform tests are
 --  only performed on Line object
-mesh2:new_polygon({{400, 10}, {430, -50}, {460, -20}},
+mesh[2]:new_polygon({{400, 10}, {430, -50}, {460, -20}},
   {0xff8000ff, 0xff8000ff, 0xff8000ff}):move({0, 20, 0})
 
 -- Test Chain as a Polygon alias
-mesh2:new_chain({{480, 30}, {510, -30}, {540, 0}}, 0x00ff00ff)
+mesh[2]:new_chain({{480, 30}, {510, -30}, {540, 0}}, 0x00ff00ff)
 
 
 pic.print_memory_usage("Polygon object tests")
 
 
 -- Test Arc object
-mesh9:new_arc(30, -20, 30, 30, 0, math.pi, 36, 0xff0000ff)
-mesh9:new_arc(110, -20, 30, 30, 0, math.pi, 36, 0xff0000ff,
+mesh[3]:new_arc(30, -20, 30, 30, 0, math.pi, 36, 0xff0000ff)
+mesh[3]:new_arc(110, -20, 30, 30, 0, math.pi, 36, 0xff0000ff,
   {width=5})
-mesh9:new_arc(190, -20, 30, 30, 0, math.pi, 36, 0x00ff00ff,
+mesh[3]:new_arc(190, -20, 30, 30, 0, math.pi, 36, 0x00ff00ff,
   {width=10})
 
 pic.print_memory_usage("Arc object tests")
 
 
 -- Test other shapes
-mesh8:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
+mesh[4]:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
 
 pic.print_memory_usage("Testing other shapes")
 
 
 -- Test transforms
-mesh3:new_line({0, 30}, {60, -30}, 0xff0000ff)  -- for reference
-mesh3:new_line({10, 25, 20}, {70, -35, 20}, 0xff8000ff):move({70, 5, -20})
-mesh3:new_line({0, 30}, {60, -30}, 0xffff00ff):move(pic.PointPolar(160, 0))
-mesh3:new_line({240, 30}, {300, -30}, 0x80ff00ff):rotate(
+mesh[5]:new_line({0, 30}, {60, -30}, 0xff0000ff)  -- for reference
+mesh[5]:new_line({10, 25, 20}, {70, -35, 20}, 0xff8000ff):move({70, 5, -20})
+mesh[5]:new_line({0, 30}, {60, -30}, 0xffff00ff):move(pic.PointPolar(160, 0))
+mesh[5]:new_line({240, 30}, {300, -30}, 0x80ff00ff):rotate(
   {32/36*math.pi, 32/36*math.pi, 32/36*math.pi}, {270, 0}
 )
-mesh3:new_line({335, 15}, {365, -15}, 0x00ff00ff):scale({2, 2.5, 0}, {350, 0})
-mesh3:new_line({430, 30}, {430, -30}, 0x00ff80ff):shear({-1, 0, 10}, {430, 0})
+mesh[5]:new_line({335, 15}, {365, -15},0x00ff00ff):scale(
+  {2, 2.5, 0}, {350, 0})
+mesh[5]:new_line({430, 30}, {430, -30}, 0x00ff80ff):shear(
+  {-1, 0, 10}, {430, 0})
 
 
 pic.print_memory_usage("Transformations")
 
 
 -- Test mesh-wide transforms
-mesh4:new_line({0, 30}, {60, -30}, 0xff0000ff)
-mesh4:move({80, 0})
+mesh[6]:new_line({0, 30}, {60, -30}, 0xff0000ff)
+mesh[6]:move({80, 0})
 
 
 pic.print_memory_usage("Mesh transformations")
@@ -116,14 +111,14 @@ pic.print_memory_usage("Mesh transformations")
 
 
 -- test different point types
--- mesh5:new_line(pic.Point(0, 30), pic.PointPolar(180, 2.05, 10), 0x00ff00ff)
+-- mesh[7]:new_line(pic.Point(0, 30), pic.PointPolar(180, 2.05, 10), 0x00ff00ff)
 
 
 pic.print_memory_usage("Point types")
 
 
 -- Test different Color types
-mesh6:new_line({0, 30}, {60, -30, -25}, {pic.Color(0xff0000ff),
+mesh[8]:new_line({0, 30}, {60, -30, -25}, {pic.Color(0xff0000ff),
   pic.ColorRGB(0, 0, 255), pic.ColorRGBA(255, 255, 0, 50),
   pic.ColorHSV(180, 1, 0.5)})
 
@@ -133,31 +128,18 @@ pic.print_memory_usage("Color types")
 
 -- Line should not be visible (test for implying default value,
 -- when no colors specified)
-mesh7:new_line({0, 30}, {60, -30})
-mesh7:new_line({0, 30}, {30, 0}, 0xffffffff)  -- for reference
-mesh7:new_polygon({{80, 30}, {110, -30}, {140, 0}})
-mesh7:new_line({80, 30}, {110, 0}, 0xffffffff)  -- for reference
+mesh[9]:new_line({0, 30}, {60, -30})
+mesh[9]:new_line({0, 30}, {30, 0}, 0xffffffff)  -- for reference
+mesh[9]:new_polygon({{80, 30}, {110, -30}, {140, 0}})
+mesh[9]:new_line({80, 30}, {110, 0}, 0xffffffff)  -- for reference
 
 
 pic.print_memory_usage("Extra tests")
 
 
--- Test different methods of compiling meshes
-local mesh1_compiled = mesh1:compile()
-local mesh2_compiled = mesh2:compile()
-local mesh3_compiled = mesh3:compile()
-local mesh4_compiled = mesh4:compile()
-local mesh5_compiled, mesh6_compiled = table.unpack(
-  pic.compile_meshes({mesh5, mesh6})
-)
-local mesh7_compiled = mesh7:compile()
-local mesh8_compiled = mesh8:compile()
-local mesh9_compiled = mesh9:compile()
+-- Compile the meshes
 
+meshes = pic.compile_meshes(mesh)
 pic.print_memory_usage("Mesh compilation")
-
-meshes = {mesh1_compiled, mesh2_compiled, mesh9_compiled, mesh8_compiled,
-  mesh3_compiled, mesh4_compiled, mesh5_compiled, mesh6_compiled,
-  mesh7_compiled}
 
 -- print(inspect(meshes))
