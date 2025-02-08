@@ -14,6 +14,7 @@ local mesh4, mesh5 = table.unpack(pic.define_meshes(2))
 local mesh6, mesh7 = table.unpack(
   pic.define_meshes(2, {FAKE_WIDTH_LINE_GAP = 0.65}))
 local mesh8 = pic.Mesh:new()
+local mesh9 = pic.Mesh:new()
 
 
 pic.print_memory_usage("Creating Mesh objects")
@@ -75,9 +76,18 @@ mesh2:new_chain({{480, 30}, {510, -30}, {540, 0}}, 0x00ff00ff)
 pic.print_memory_usage("Polygon object tests")
 
 
+-- Test Arc object
+mesh9:new_arc(30, -20, 30, 30, 0, math.pi, 36, 0xff0000ff)
+mesh9:new_arc(110, -20, 30, 30, 0, math.pi, 36, 0xff0000ff,
+  {width=5})
+mesh9:new_arc(190, -20, 30, 30, 0, math.pi, 36, 0x00ff00ff,
+  {width=10})
+
+pic.print_memory_usage("Arc object tests")
+
+
 -- Test other shapes
 mesh8:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
-
 
 pic.print_memory_usage("Testing other shapes")
 
@@ -142,10 +152,12 @@ local mesh5_compiled, mesh6_compiled = table.unpack(
 )
 local mesh7_compiled = mesh7:compile()
 local mesh8_compiled = mesh8:compile()
+local mesh9_compiled = mesh9:compile()
 
 pic.print_memory_usage("Mesh compilation")
 
-meshes = {mesh1_compiled, mesh2_compiled, mesh8_compiled, mesh3_compiled,
-  mesh4_compiled, mesh5_compiled, mesh6_compiled, mesh7_compiled}
+meshes = {mesh1_compiled, mesh2_compiled, mesh9_compiled, mesh8_compiled,
+  mesh3_compiled, mesh4_compiled, mesh5_compiled, mesh6_compiled,
+  mesh7_compiled}
 
 -- print(inspect(meshes))

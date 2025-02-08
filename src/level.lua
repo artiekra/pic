@@ -27,8 +27,9 @@ local function create_meshes()
     pewpew.customizable_entity_set_mesh(mesh, "/dynamic/mesh.lua", index)
   end
 
-  mesh_names = {"Line object", "Polygon object", "Other shapes", "Transforms",
-    "Mesh transforms", "Point types", "Color types", "Extra tests"}
+  mesh_names = {"Line object", "Polygon object", "Arc object", "Other shapes",
+    "Transforms", "Mesh transforms", "Point types", "Color types",
+    "Extra tests"}
   for i, mesh_name in ipairs(mesh_names) do
     create_mesh(mesh_name, i-1)
   end

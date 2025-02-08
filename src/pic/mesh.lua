@@ -24,6 +24,7 @@ local transform_helpers = relative_import("elements/helpers/transform.lua")
 local Line = relative_import("elements/line.lua")
 local Polygon = relative_import("elements/polygon.lua")
 local Chain = relative_import("elements/chain.lua")
+local Arc = relative_import("elements/arc.lua")
 
 
 --- Merge two tables into one.
@@ -182,6 +183,7 @@ end
 add_element_methods("line", Line)
 add_element_methods("polygon", Polygon)
 add_element_methods("chain", Chain)
+add_element_methods("arc", Arc)
 
 add_transform_method(Mesh, "move")
 add_transform_method(Mesh, "rotate")
