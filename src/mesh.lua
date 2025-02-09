@@ -7,7 +7,7 @@ pic.print_memory_usage("After importing libs")
 
 -- Test creating mesh objects, both normally and
 --  specifying custom constants; test pic.define_meshes()
-local mesh = pic.define_meshes(9, {FAKE_WIDTH_LINE_GAP = 0.65})
+local mesh = pic.define_meshes(9, {FAKE_WIDTH_LINE_GAP = 0.7})
 
 
 pic.print_memory_usage("Creating Mesh objects")
@@ -82,7 +82,7 @@ pic.print_memory_usage("Arc object tests")
 
 
 -- Test other shapes
-mesh[4]:new_ellipse(30, 0, 30, 15, 180, 0xff0000ff, {width=5}):rotate(
+mesh[4]:new_ellipse(30, 0, 30, 15, 80, 0xff0000ff, {width=5}):rotate(
   {0, 0, -math.pi/6}, {30, 0}
 )
 
