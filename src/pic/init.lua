@@ -89,9 +89,9 @@ function pic.print_memory_usage(title)
     "KB", memory_usage_raw % 1 * 1024, "B")
   
   if title == nil then
-    print("💾 Memory usage: "..memory_usage)
+    pewpew.print("💾 Memory usage: "..memory_usage)
   elseif type(title) == "string" then
-    print("💾 "..title.." (memory usage): "..memory_usage)
+    pewpew.print("💾 "..title.." (memory usage): "..memory_usage)
   else
     error("nil or string expected to represent memory usage print title")
   end

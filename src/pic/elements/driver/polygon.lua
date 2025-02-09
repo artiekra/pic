@@ -21,7 +21,8 @@ local basic = relative_import("basic.lua")
 --- Calculate an angle from two points
 -- Calculates an angle between the x-axis of the plane and a line defined by
 -- two points
--- TODO: reimplement with atan2 if new ppl-utils support it
+-- TODO: reimplement with atan2 (atan with 2 arguments passed for lua5.3,
+--  refer to lua code)
 local function calculate_line_angle(x1, y1, x2, y2)
   local dx = x2 - x1
   local dy = y2 - y1

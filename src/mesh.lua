@@ -82,7 +82,9 @@ pic.print_memory_usage("Arc object tests")
 
 
 -- Test other shapes
-mesh[4]:new_polygon({{0, 30}, {30, -30}, {60, 0}}, 0xff0000ff)
+mesh[4]:new_ellipse(30, 0, 30, 15, 180, 0xff0000ff, {width=5}):rotate(
+  {0, 0, -math.pi/6}, {30, 0}
+)
 
 pic.print_memory_usage("Testing other shapes")
 

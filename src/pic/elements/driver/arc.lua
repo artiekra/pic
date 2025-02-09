@@ -19,25 +19,6 @@ local basic = relative_import("basic.lua")
 local polygon = relative_import("polygon.lua")
 
 
-function atan2(y, x)
-
-    if x > 0 then
-        return math.atan(y / x)
-    elseif x < 0 and y >= 0 then
-        return math.atan(y / x) + math.pi
-    elseif x < 0 and y < 0 then
-        return math.atan(y / x) - math.pi
-    elseif x == 0 and y > 0 then
-        return math.pi / 2
-    elseif x == 0 and y < 0 then
-        return -math.pi / 2
-    else
-        return 0 -- undefined case (x == 0, y == 0), returning 0 as a fallback
-    end
-
-end
-
-
 --- Add an arc of an ellipse to a mesh.
 -- This function creates an arc by sampling points along an ellipse.
 -- For a wide arc (width > 1) the function draws several complete arcs
@@ -118,7 +99,7 @@ function arc.add_arc(mesh, cx, cy, rx, ry, start_angle, end_angle, segments, col
       local cA = arc_colors[1]
       local cB = arc_colors[#arc_colors]
       -- Compute the angle of the closing segment.
-      local angle = atan2(B[2] - A[2], B[1] - A[1])
+      local angle = math.atan(B[2] - A[2], B[1] - A[1])
       -- A very small offset used to create short connecting segments.
       local epsilon = gap * 0.1
       -- Build four vertices:

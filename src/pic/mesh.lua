@@ -24,6 +24,7 @@ local Line = relative_import("elements/line.lua")
 local Polygon = relative_import("elements/polygon.lua")
 local Chain = relative_import("elements/chain.lua")
 local Arc = relative_import("elements/arc.lua")
+local Ellipse = relative_import("elements/ellipse.lua")
 
 
 --- Merge two tables into one.
@@ -183,6 +184,7 @@ add_element_methods("line", Line)
 add_element_methods("polygon", Polygon)
 add_element_methods("chain", Chain)
 add_element_methods("arc", Arc)
+add_element_methods("ellipse", Ellipse)
 
 add_transform_method(Mesh, "move")
 add_transform_method(Mesh, "rotate")
