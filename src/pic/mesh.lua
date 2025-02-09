@@ -1,6 +1,5 @@
 -- Meta Mesh class
 -- TODO: implement mesh-wide offset (potentially?)
--- TODO: implement mesh-wide transforms
 Mesh = {elements = {}, constants = {}, transforms = {}}
 Mesh.__index = Mesh
 

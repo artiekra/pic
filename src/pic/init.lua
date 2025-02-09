@@ -1,8 +1,6 @@
 -- TODO: potentially introduce class privacy
 -- TODO: improve commenting (LDoc stuff too)
--- TODO: mesh-wide transforms
 -- TODO: implement copy_vsc and copy_object
--- TODO: implement MeshSet
 local pic = {}
 
 pic._VERSION = "1.0.0"
