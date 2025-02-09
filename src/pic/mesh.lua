@@ -20,11 +20,13 @@ end
 local constant_defaults = relative_import("defaults.lua")
 local transform_helpers = relative_import("elements/helpers/transform.lua")
 
-local Line = relative_import("elements/line.lua")
-local Polygon = relative_import("elements/polygon.lua")
-local Chain = relative_import("elements/chain.lua")
-local Arc = relative_import("elements/arc.lua")
-local Ellipse = relative_import("elements/ellipse.lua")
+local ELEMENTS_STR = {"line", "polygon", "chain", "arc", "ellipse"}
+
+local elements = {}
+for _, element in ipairs(ELEMENTS_STR) do
+  local lib = relative_import("elements/"..element..".lua")
+  elements[element] = lib
+end
 
 
 --- Merge two tables into one.
@@ -180,11 +182,9 @@ local function add_transform_method(class, name)
 end
 
 
-add_element_methods("line", Line)
-add_element_methods("polygon", Polygon)
-add_element_methods("chain", Chain)
-add_element_methods("arc", Arc)
-add_element_methods("ellipse", Ellipse)
+for name, lib in pairs(elements) do
+  add_element_methods(name, lib)
+end
 
 add_transform_method(Mesh, "move")
 add_transform_method(Mesh, "rotate")
