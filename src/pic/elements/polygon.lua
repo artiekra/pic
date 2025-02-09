@@ -12,9 +12,10 @@ local function relative_import(file)
 end
 
 
+local driver = relative_import("driver/init.lua")
+
 local vertex_helpers = relative_import("helpers/vertex.lua")
 local color_helpers = relative_import("helpers/color.lua")
-local mesh_helpers = relative_import("helpers/mesh.lua")
 local lerp_helpers = relative_import("helpers/lerp.lua")
 local transform_helpers = relative_import("helpers/transform.lua")
 
@@ -100,7 +101,7 @@ function Polygon:compile(constants)
     computed_colors = self.colors
   end
 
-  local mesh = mesh_helpers.add_polygon(nil, self.points,
+  local mesh = driver.add_polygon(nil, self.points,
     computed_colors, constants, {width=self.options.width,
     is_closed=self.options.is_closed, joint=self.options.joint})
 

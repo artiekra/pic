@@ -1,4 +1,4 @@
-local mesh_helpers = {}
+local driver = {}
 
 
 --- Calculate an angle from two points
@@ -123,7 +123,7 @@ end
 -- @param constants Table with constants to use (passed to add_polygon)
 -- @param options Options table (e.g., is_closed, width, etc.)
 -- @return Mesh with the added Bezier curve
-function mesh_helpers.add_bezier_curve(
+function driver.add_bezier_curve(
   mesh, control_points, segments, colors, constants, options
 )
   local points = {}
@@ -166,7 +166,7 @@ function mesh_helpers.add_bezier_curve(
   end
 
   options = options or {is_closed = false}
-  return mesh_helpers.add_polygon(
+  return driver.add_polygon(
     mesh, points, color_table, constants, options
   )
 end
@@ -180,7 +180,7 @@ end
 -- @param options Options (e.g., is_closed, width)
 -- @return New mesh
 -- TODO: create fewer vertices (avoid duplicates)
-function mesh_helpers.add_polygon(
+function driver.add_polygon(
   mesh, points, colors, constants, options
 )
   local options = options or {}
@@ -245,7 +245,7 @@ function mesh_helpers.add_polygon(
           table.insert(joint_colors, joint_color)
         end
 
-        mesh = mesh_helpers.add_polygon(
+        mesh = driver.add_polygon(
           mesh, joint_points, joint_colors, constants, {is_closed = true}
         )
       end
@@ -273,7 +273,7 @@ end
 -- @param constants Table with constants to use (passed to add_polygon)
 -- @param options Options table (e.g., is_closed, width, etc.)
 -- @return Mesh with the added arc
-function mesh_helpers.add_arc(
+function driver.add_arc(
   mesh, cx, cy, rx, ry, start_angle, end_angle, segments, colors,
   constants, options
 )
@@ -297,10 +297,10 @@ function mesh_helpers.add_arc(
   end
 
   options = options or {is_closed = false}
-  return mesh_helpers.add_polygon(
+  return driver.add_polygon(
     mesh, points, color_table, constants, options
   )
 end
 
 
-return mesh_helpers
+return driver

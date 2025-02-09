@@ -12,9 +12,10 @@ local function relative_import(file)
 end
 
 
+local driver = relative_import("driver/init.lua")
+
 local vertex_helpers = relative_import("helpers/vertex.lua")
 local color_helpers = relative_import("helpers/color.lua")
-local mesh_helpers = relative_import("helpers/mesh.lua")
 local lerp_helpers = relative_import("helpers/lerp.lua")
 local transform_helpers = relative_import("helpers/transform.lua")
 
@@ -90,7 +91,7 @@ end
 
 --- Compile the Arc object.
 -- This method creates a mesh representing the arc using the helper
--- function `mesh_helpers.add_arc()`, then applies any transforms.
+-- function `driver.add_arc()`, then applies any transforms.
 -- @param constants Table with constants to use in mesh creation.
 -- @return the VSC table (mesh) for the arc.
 function Arc:compile(constants)
@@ -118,7 +119,7 @@ function Arc:compile(constants)
   local end_angle = self.end_angle
   local segments = self.segments
 
-  local mesh = mesh_helpers.add_arc(
+  local mesh = driver.add_arc(
     nil,
     cx, cy,
     rx, ry,
