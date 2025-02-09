@@ -74,7 +74,9 @@ mesh[3]:new_arc(30, -20, 30, 30, 0, math.pi, 36, 0xff0000ff)
 mesh[3]:new_arc(110, -20, 30, 30, 0, math.pi, 36, 0xff0000ff,
   {width=5})
 mesh[3]:new_arc(190, -20, 30, 30, 0, math.pi, 36, 0x00ff00ff,
-  {width=10})
+  {is_closed=true})
+mesh[3]:new_arc(270, -20, 30, 30, 0, math.pi, 36, 0x00ff00ff,
+  {width=10, is_closed=true})
 
 pic.print_memory_usage("Arc object tests")
 
